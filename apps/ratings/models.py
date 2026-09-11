@@ -1,6 +1,7 @@
 from django.db import models
 from apps.accounts.models import User,ProviderProfile
 from apps.bookings.models import Booking
+from apps.core.models import TimeStampedMixing
 
 
 # Create your models here.

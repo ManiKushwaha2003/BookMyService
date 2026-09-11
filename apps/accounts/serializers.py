@@ -21,7 +21,6 @@ class UserSerializer(serializers.ModelSerializer):
             ProviderProfile.objects.create(user=user)
         return user
 
-    
 
 class ProviderProfileSerializer(serializers.ModelSerializer):
     class Meta:
