@@ -12,7 +12,7 @@ class User(AbstractUser):
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="user")
     phone = models.CharField(max_length=10, blank=True, null=True)
-    address = models.CharField(max_length=100, blank=True, unique=True)
+    address = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.username
@@ -27,4 +27,3 @@ class ProviderProfile(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True) 
     updated_at = models.DateTimeField(auto_now=True)
-
