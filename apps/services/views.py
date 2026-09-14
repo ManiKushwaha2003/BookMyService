@@ -1,12 +1,14 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import ServiceSerializer
 from .models import Service
 
 
 class ServiceAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self,request):
         service = Service.objects.all()
         serializer = ServiceSerializer(service, many=True)
@@ -20,6 +22,7 @@ class ServiceAPIView(APIView):
         return Response(serializer.errors)
 
 class ServiceByIdView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self,request,id):
         service = Service.objects.get(id=id)
         serializer = ServiceSerializer(service)

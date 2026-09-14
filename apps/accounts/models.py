@@ -27,3 +27,6 @@ class ProviderProfile(TimeStampedMixing):
     )
     services = models.ManyToManyField(Service)
     description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username

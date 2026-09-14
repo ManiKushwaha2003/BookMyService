@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 load_dotenv()
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,3 +147,14 @@ MAILERS = {
     },
 }
 AUTH_USER_MODEL = 'accounts.User'
+
+SIMPLE_JWT ={
+    'ACCESS_TOKEN_LIFETIME':timedelta(minutes=10),
+    'REFRESH_TOKEN_LIFETIME':timedelta(days=1)
+
+}
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+}
