@@ -16,6 +16,9 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = super().create(validated_data)
 
+        user.set_password(user.password)
+        user.save()
+
         if user.role=="provider":
             # Create a provider profile on creation
             ProviderProfile.objects.create(user=user)

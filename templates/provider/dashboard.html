@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+ 
+{% block title %}Provider Dashboard | BookMyService{% endblock %}
+ 
+{% block content %}
+ 
+<div class="dashboard-wrapper">
+ 
+    <aside class="dashboard-sidebar">
+ 
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="bi bi-tools"></i>
+            </div>
+            <span>BookMyService</span>
+        </div>
+ 
+        <div class="sidebar-menu">
+ 
+            <a href="#" class="sidebar-link active">
+                <i class="bi bi-grid-1x2"></i>
+                <span>Dashboard</span>
+            </a>
+ 
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-inbox"></i>
+                <span>Service Requests</span>
+            </a>
+ 
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-briefcase"></i>
+                <span>My Jobs</span>
+            </a>
+ 
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-tools"></i>
+                <span>My Services</span>
+            </a>
+ 
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-person"></i>
+                <span>Profile</span>
+            </a>
+ 
+        </div>
+ 
+        <div class="sidebar-bottom">
+ 
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+ 
+        </div>
+ 
+    </aside>
+ 
+ 
+    <main class="dashboard-main">
+ 
+        <div class="dashboard-header">
+ 
+            <div>
+                <p class="dashboard-label">PROVIDER DASHBOARD</p>
+ 
+                <h2>
+                    Welcome back,
+                    <span id="providerName">Provider</span>
+                </h2>
+ 
+                <p class="dashboard-subtitle">
+                    Manage service requests and your active jobs.
+                </p>
+            </div>
+ 
+ 
+            <div class="header-profile">
+ 
+                <div class="notification">
+                    <i class="bi bi-bell"></i>
+                </div>
+ 
+                <div class="profile-avatar">
+                    P
+                </div>
+ 
+            </div>
+ 
+        </div>
+ 
+ 
+        <div class="stats-grid">
+ 
+            <div class="stat-card">
+ 
+                <div class="stat-icon blue">
+                    <i class="bi bi-inbox"></i>
+                </div>
+ 
+                <div>
+                    <p>New Requests</p>
+                    <h3 id="newRequests">0</h3>
+                </div>
+ 
+            </div>
+ 
+ 
+            <div class="stat-card">
+ 
+                <div class="stat-icon orange">
+                    <i class="bi bi-briefcase"></i>
+                </div>
+ 
+                <div>
+                    <p>Active Jobs</p>
+                    <h3 id="activeJobs">0</h3>
+                </div>
+ 
+            </div>
+ 
+ 
+            <div class="stat-card">
+ 
+                <div class="stat-icon green">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+ 
+                <div>
+                    <p>Completed Jobs</p>
+                    <h3 id="completedJobs">0</h3>
+                </div>
+ 
+            </div>
+ 
+ 
+            <div class="stat-card">
+ 
+                <div class="stat-icon purple">
+                    <i class="bi bi-star-fill"></i>
+                </div>
+ 
+                <div>
+                    <p>My Rating</p>
+                    <h3 id="providerRating">0.0</h3>
+                </div>
+ 
+            </div>
+ 
+        </div>
+ 
+ 
+        <div class="dashboard-grid">
+ 
+ 
+            <section class="dashboard-card requests-card">
+ 
+                <div class="section-header">
+ 
+                    <div>
+                        <h4>New Service Requests</h4>
+                        <p>Customers looking for your services</p>
+                    </div>
+ 
+                    <a href="#" class="view-link">
+                        View all
+                    </a>
+ 
+                </div>
+ 
+ 
+                <div class="request-item">
+ 
+                    <div class="request-avatar">
+                        MK
+                    </div>
+ 
+                    <div class="request-info">
+ 
+                        <h5>Mani Kumar</h5>
+ 
+                        <span>
+                            <i class="bi bi-lightning-charge"></i>
+                            Electrician
+                        </span>
+ 
+                        <p>
+                            Need help repairing a ceiling fan.
+                        </p>
+ 
+                    </div>
+ 
+                    <button class="offer-btn">
+                        Send Offer
+                    </button>
+ 
+                </div>
+ 
+ 
+                <div class="request-item">
+ 
+                    <div class="request-avatar">
+                        AK
+                    </div>
+ 
+                    <div class="request-info">
+ 
+                        <h5>Akash Kumar</h5>
+ 
+                        <span>
+                            <i class="bi bi-house"></i>
+                            Home Cleaner
+                        </span>
+ 
+                        <p>
+                            Need complete home cleaning service.
+                        </p>
+ 
+                    </div>
+ 
+                    <button class="offer-btn">
+                        Send Offer
+                    </button>
+ 
+                </div>
+ 
+            </section>
+ 
+ 
+            <section class="dashboard-card profile-card">
+ 
+                <div class="section-header">
+ 
+                    <div>
+                        <h4>My Profile</h4>
+                        <p>Provider information</p>
+                    </div>
+ 
+                    <a href="#" class="view-link">
+                        Edit
+                    </a>
+ 
+                </div>
+ 
+ 
+                <div class="provider-profile">
+ 
+                    <div class="large-avatar">
+                        P
+                    </div>
+ 
+                    <h5 id="profileName">
+                        Provider
+                    </h5>
+ 
+                    <p>
+                        Professional Service Provider
+                    </p>
+ 
+                    <div class="rating-box">
+ 
+                        <i class="bi bi-star-fill"></i>
+ 
+                        <strong id="profileRating">
+                            0.0
+                        </strong>
+ 
+                        <span>
+                            Provider Rating
+                        </span>
+ 
+                    </div>
+ 
+                </div>
+ 
+            </section>
+ 
+        </div>
+ 
+ 
+        <section class="dashboard-card jobs-card">
+ 
+            <div class="section-header">
+ 
+                <div>
+                    <h4>Active Jobs</h4>
+                    <p>Your current service jobs</p>
+                </div>
+ 
+                <a href="#" class="view-link">
+                    View all
+                </a>
+ 
+            </div>
+ 
+ 
+            <div class="table-responsive">
+ 
+                <table class="dashboard-table">
+ 
+                    <thead>
+ 
+                        <tr>
+                            <th>Customer</th>
+                            <th>Service</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+ 
+                    </thead>
+ 
+ 
+                    <tbody>
+ 
+                        <tr>
+ 
+                            <td>
+ 
+                                <div class="service-name">
+ 
+                                    <div class="table-avatar">
+                                        MK
+                                    </div>
+ 
+                                    Mani Kumar
+ 
+                                </div>
+ 
+                            </td>
+ 
+                            <td>Electrician</td>
+ 
+                            <td>
+                                ₹1,000
+                            </td>
+ 
+                            <td>
+                                <span class="status-badge accepted">
+                                    Accepted
+                                </span>
+                            </td>
+ 
+                            <td>
+ 
+                                <button class="table-btn">
+                                    View Job
+                                </button>
+ 
+                            </td>
+ 
+                        </tr>
+ 
+                    </tbody>
+ 
+                </table>
+ 
+            </div>
+ 
+        </section>
+ 
+    </main>
+ 
+</div>
+ 
+{% endblock %}
+ 
