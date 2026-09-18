@@ -1,134 +1,375 @@
-
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}User Dashboard{% endblock %}
+{% block title %}User Dashboard | BookMyService{% endblock %}
 
 {% block content %}
 
-<div class="container mt-4">
+<div class="dashboard-wrapper">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+
+<!-- Sidebar -->
+<aside class="dashboard-sidebar">
+
+    <div class="sidebar-brand">
+        <div class="brand-icon">
+            <i class="bi bi-tools"></i>
+        </div>
+        <span>BookMyService</span>
+    </div>
+
+    <div class="sidebar-menu">
+
+        <a href="#" class="sidebar-link active">
+            <i class="bi bi-grid-1x2"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="#" class="sidebar-link">
+            <i class="bi bi-calendar-check"></i>
+            <span>My Bookings</span>
+        </a>
+
+        <a href="#" class="sidebar-link">
+            <i class="bi bi-search"></i>
+            <span>Find Service</span>
+        </a>
+
+        <a href="#" class="sidebar-link">
+            <i class="bi bi-tags"></i>
+            <span>Offers</span>
+        </a>
+
+        <a href="#" class="sidebar-link">
+            <i class="bi bi-person"></i>
+            <span>Profile</span>
+        </a>
+
+    </div>
+
+    <div class="sidebar-bottom">
+
+        <a href="#" class="sidebar-link" id="logoutBtn">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- Main Dashboard -->
+<main class="dashboard-main">
+
+    <!-- Header -->
+    <div class="dashboard-header">
+
         <div>
-            <h2>User Dashboard</h2>
-            <p class="text-muted">Welcome to BookMyService</p>
+
+            <p class="dashboard-label">
+                USER DASHBOARD
+            </p>
+
+            <h2>
+                Welcome back,
+                <span id="username">User</span>
+            </h2>
+
+            <p class="dashboard-subtitle">
+                Manage your services and bookings from here.
+            </p>
+
         </div>
 
-        <button id="logoutBtn" class="btn btn-danger">
-            Logout
-        </button>
+
+        <div class="header-profile">
+
+            <div class="notification">
+                <i class="bi bi-bell"></i>
+            </div>
+
+            <div class="profile-avatar" id="profileAvatar">
+                U
+            </div>
+
+        </div>
+
     </div>
+
 
     <!-- Stats -->
-    <div class="row g-3 mb-4">
+    <div class="stats-grid">
 
-        <div class="col-md-3">
-            <div class="card p-3">
-                <h6>Total Bookings</h6>
+        <div class="stat-card">
+
+            <div class="stat-icon blue">
+                <i class="bi bi-calendar-check"></i>
+            </div>
+
+            <div>
+                <p>Total Bookings</p>
                 <h3 id="totalBookings">0</h3>
             </div>
+
         </div>
 
-        <div class="col-md-3">
-            <div class="card p-3">
-                <h6>Pending</h6>
-                <h3 id="pendingBookings">0</h3>
+
+        <div class="stat-card">
+
+            <div class="stat-icon orange">
+                <i class="bi bi-tags"></i>
             </div>
-        </div>
 
-        <div class="col-md-3">
-            <div class="card p-3">
-                <h6>Active</h6>
-                <h3 id="activeBookings">0</h3>
+            <div>
+                <p>Pending Offers</p>
+                <h3 id="pendingOffers">0</h3>
             </div>
+
         </div>
 
-        <div class="col-md-3">
-            <div class="card p-3">
-                <h6>Completed</h6>
+
+        <div class="stat-card">
+
+            <div class="stat-icon green">
+                <i class="bi bi-check-circle"></i>
+            </div>
+
+            <div>
+                <p>Completed</p>
                 <h3 id="completedBookings">0</h3>
             </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon purple">
+                <i class="bi bi-clock-history"></i>
+            </div>
+
+            <div>
+                <p>Active Jobs</p>
+                <h3 id="activeBookings">0</h3>
+            </div>
+
         </div>
 
     </div>
 
 
-    <!-- Book Service -->
-    <div class="card p-4 mb-4">
+    <!-- Services + Quick Action -->
+    <div class="dashboard-grid">
 
-        <h4>Book a Service</h4>
 
-        <div class="row mt-3">
+        <!-- Services -->
+        <section class="dashboard-card services-card">
 
-            <div class="col-md-4">
-                <label>Service</label>
+            <div class="section-header">
 
-                <select id="service" class="form-select">
-                    <option value="">Select Service</option>
-                </select>
+                <div>
+                    <h4>Book a Service</h4>
+
+                    <p>
+                        Choose the service you need
+                    </p>
+                </div>
+
+                <a href="#" class="view-link">
+                    View all
+                </a>
+
             </div>
 
-            <div class="col-md-6">
-                <label>Description</label>
 
-                <input
-                    type="text"
-                    id="description"
-                    class="form-control"
-                    placeholder="Describe your requirement"
-                >
+            <div class="service-grid">
+
+
+                <div class="service-item">
+
+                    <div class="service-icon">
+                        <i class="bi bi-lightning-charge"></i>
+                    </div>
+
+                    <span>Electrician</span>
+
+                </div>
+
+
+                <div class="service-item">
+
+                    <div class="service-icon">
+                        <i class="bi bi-hammer"></i>
+                    </div>
+
+                    <span>Carpenter</span>
+
+                </div>
+
+
+                <div class="service-item">
+
+                    <div class="service-icon">
+                        <i class="bi bi-car-front"></i>
+                    </div>
+
+                    <span>Driver</span>
+
+                </div>
+
+
+                <div class="service-item">
+
+                    <div class="service-icon">
+                        <i class="bi bi-house"></i>
+                    </div>
+
+                    <span>Home Cleaner</span>
+
+                </div>
+
+
+                <div class="service-item">
+
+                    <div class="service-icon">
+                        <i class="bi bi-wrench-adjustable"></i>
+                    </div>
+
+                    <span>Plumber</span>
+
+                </div>
+
+
             </div>
 
-            <div class="col-md-2 d-flex align-items-end">
-                <button id="bookBtn" class="btn btn-primary w-100">
-                    Book
-                </button>
+        </section>
+
+
+        <!-- Quick Action -->
+        <section class="dashboard-card quick-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h4>Quick Action</h4>
+
+                    <p>
+                        Need a service?
+                    </p>
+
+                </div>
+
             </div>
 
-        </div>
 
-        <p id="message" class="mt-3"></p>
+            <div class="quick-action-box">
+
+                <div class="quick-action-icon">
+                    <i class="bi bi-plus-lg"></i>
+                </div>
+
+                <div>
+
+                    <h5>Create New Booking</h5>
+
+                    <p>
+                        Find a professional for your service.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button class="primary-btn" id="bookServiceBtn">
+
+                Book a Service
+
+                <i class="bi bi-arrow-right"></i>
+
+            </button>
+
+        </section>
 
     </div>
 
 
-    <!-- My Bookings -->
+    <!-- Recent Bookings -->
+    <section class="dashboard-card bookings-card">
 
-    <div class="card p-4">
+        <div class="section-header">
 
-        <h4>My Bookings</h4>
+            <div>
+
+                <h4>Recent Bookings</h4>
+
+                <p>
+                    Your latest service requests
+                </p>
+
+            </div>
+
+
+            <a href="#" class="view-link">
+                View all
+            </a>
+
+        </div>
+
 
         <div class="table-responsive">
 
-            <table class="table mt-3">
+            <table class="dashboard-table">
 
                 <thead>
+
                     <tr>
-                        <th>ID</th>
+
                         <th>Service</th>
-                        <th>Status</th>
+
+                        <th>Description</th>
+
                         <th>Provider</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
                     </tr>
+
                 </thead>
 
+
                 <tbody id="bookingTable">
-                    <!-- JS data -->
+
+                    <tr>
+
+                        <td colspan="5" class="text-center">
+
+                            Loading bookings...
+
+                        </td>
+
+                    </tr>
+
                 </tbody>
 
             </table>
 
         </div>
 
-    </div>
+    </section>
+
+
+</main>
+```
 
 </div>
 
-{% endblock %}
-
-
-{% block javascript %}
+<!-- User Dashboard JavaScript -->
 
 <script src="{% static 'js/user/dashboard.js' %}"></script>
 
 {% endblock %}
-

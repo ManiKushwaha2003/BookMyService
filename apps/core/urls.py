@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import path
 
-from apps.accounts.views import home, login, register, userdashboard, providerdashboard
+from apps.accounts.views import home, login, register, userdashboard, providerdashboard, createbooking
 
 # Create your views here.
 
@@ -13,5 +13,6 @@ urlpatterns = [
     path(f"{ACCOUNTS_PREFIX}/user/register/", register.as_view(), name="register"),
     path("user-dashboard/", userdashboard.as_view(), name="user_dashboard"),
     path("provider-dashboard/", providerdashboard.as_view(), name="user_dashboard"),
+    path("create-booking/", createbooking.as_view(), name="create"),
 
 ]

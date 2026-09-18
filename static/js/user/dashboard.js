@@ -1,111 +1,277 @@
 
 const token = localStorage.getItem("access");
 
-const usergetapi = "/api/accounts/users/";
-const serviecgetapi = "/api/services/service/";
-const bookinggetapi = "/api/bookings/booking/";
-const bookingviewapi = "/api/bookings/booking/1";
+if (!token) {
+window.location.href = "/accounts/user/login/";
+}
 
+function getUserId() {
 
-// user load
-async function getuserbyid(){
-    
-    const payload = JSON.parse(atob(token.split(".")[1]));
+const payload = JSON.parse(atob(token.split(".")[1]));
 
-    userID = payload.user_id;
+return payload.user_id;
 
-    try{
-        const response = await fetch(usergetapi+userID ,
-            {
+}
 
-            headers:{
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
+async function getUserData() {
+
+try {
+    const userId = getUserId();
+    const response = await fetch(
+        `/api/accounts/users/${userId}/`,
+        {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
             }
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        return;
+    }
+
+
+} catch (error) {
+    console.log("User Error:", error);
+}
+}
+
+async function getServices() {
+try {
+
+    const response = await fetch("/api/services/service/",
+        {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+
+    const services = await response.json();
+
+    return services;
+
+} catch (error) {
+
+    console.log("Service Error:", error);
+    return [];}
+}
+
+
+
+async function getProviders() {
+try {
+
+    const response = await fetch("/api/accounts/users/",
+        {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+
+    const users = await response.json();
+    return users;
+} catch (error) {
+    console.log("Provider Error:", error);
+    return [];
+
+}
+}
+
+
+async function getBookings() {
+
+try {
+    const response = await fetch(
+        "/api/bookings/booking/",
+        {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+
+    const bookings = await response.json();
+    if (!response.ok) {
+
+        console.log("Booking API Error:",bookings
+        );
+        return;
+    }
+
+    const userId = getUserId();
+
+    const myBookings = bookings.filter(function(booking) {
+
+        return Number(booking.client) === Number(userId);
+
+    });
+
+
+    console.log("My Bookings:", myBookings);
+
+    document.getElementById(
+        "totalBookings"
+    ).innerText = myBookings.length;
+
+
+
+    const services = await getServices();
+    const providers = await getProviders();
+
+    showBookings( myBookings,services,providers
+    );
+
+    await getOffersCount(myBookings);
+
+
+} catch (error) {
+
+    console.log("Booking Error:", error
+    );
+
+}
+
+
+}
+
+
+function showBookings(bookings,services,providers) {
+
+const table = document.getElementById( "bookingTable" );
+
+table.innerHTML = "";
+if (bookings.length === 0) {
+    table.innerHTML = `
+        <tr>
+            <td colspan="5" class="text-center">
+                No bookings found
+            </td>
+        </tr>
+    `;
+
+    return;
+
+}
+
+
+bookings.slice(0, 5).forEach(function(booking) {
+
+    const service = services.find(function(item) {
+
+        return Number(item.id) === Number(
+            booking.service
+        );
+
+    });
+
+    let providerName = "";
+    if (booking.provider) {
+
+        const provider = providers.find(function(item) {
+
+            return Number(item.id) === Number(
+                booking.provider
+            );
+
         });
 
-        const data = await response.json();
-        console.log(data)
 
-       
-    }
-    catch(error){
-        console.error("fail to fetch data ",error.mesage)
+        if (provider) {
 
-    }
-}
-getuserbyid()
-// load service
+            providerName =
+                provider.username;
 
-async function serviceget() {
-    try{
-
-        const response = await fetch(serviecgetapi,{
-            headers:{
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-            }
-        })
-        const data = await response.json();
-
-    }
-    catch(error){
-     console.log("error", error.message);
-    }
-    
-}
-serviceget()
-
-
-//  booking list//
-async function BookingGet() {
-
-    const totalbookingElement = document.getElementById("totalBookings");
-
-    try{
-
-        const response = await fetch(bookinggetapi,{
-            headers:{
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-            }
-        })
-        const data = await response.json();
-        if (totalbookingElement) {
-           
-            if (Array.isArray(data)) {
-                totalbookingElement.textContent = data.length; 
-            } 
         }
 
     }
-    catch(error){
-     console.log("error", error.message)
+
+
+    let statusClass = "pending";
+    if (booking.status === "ACCEPTED") {
+        statusClass = "accepted";
+
     }
+    if (booking.status === "IN_PROGRESS") {
+        statusClass = "active";
+    }
+    if (booking.status === "COMPLETED") {
+
+        statusClass = "completed";
+
+    }
+    if (booking.status === "REJECTED") {
+
+        statusClass = "rejected";
+
+    }
+    table.innerHTML += `
+
+        <tr>
+
+            <td>
+
+                <div class="service-name">
+
+                    <div class="table-icon">
+
+                        <i class="bi bi-tools"></i>
+
+                    </div>
+
+                    ${service ? service.name : "Service"}
+
+                </div>
+
+            </td>
+
+
+            <td>
+
+                ${booking.description || "-"}
+
+            </td>
+
+
+            <td>
+
+                ${providerName}
+
+            </td>
+
+
+            <td>
+
+                <span class="status-badge ${statusClass}">
+
+                    ${booking.status}
+
+                </span>
+
+            </td>
+        </tr>
+    `;
+
+});
+
+
+}
+
+
+document.addEventListener("DOMContentLoaded",
+function() {
+    getUserData();
+    getBookings();
     
-}
-BookingGet()
-
-async function booking_detail() {
-
-    const bookingTable = document.getElementById("bookingTable")
-
-    try{
-        const response = await fetch("",{
-            headers:{
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
+    document .getElementById("bookServiceBtn").addEventListener("click",
+            function() {
+                window.location.href ="/create-booking/";
             }
-
-        })
-        const data = await response.json();
-
-       
-    }
-    catch(error){
-        console.log("error",error.mesage)
-    }
+        );
 }
-
-
-
+);

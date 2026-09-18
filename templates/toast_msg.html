@@ -1,0 +1,14 @@
+<div id="toastMessage" class="toast-message"></div>
+<script>
+    function toastMessage(msg){
+        const toast = document.getElementById("toastMessage");
+        toast.textContent = msg;
+        
+        toast.classList.add("show");
+        setTimeout(()=> {
+            toast.classList.remove("show");
+
+        },3000);
+    }
+
+</script>

@@ -9,6 +9,17 @@ async function login(event) {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
+
+    if (username.trim() === "") {
+        toastMessage("username is required ");
+        return;
+    }  
+
+    if (password.trim() === ""){
+        toastMessage("password is required")
+        return;
+    }    
+
     try {
         const response = await fetch("/api/accounts/token/", {
             method: "POST",
@@ -23,13 +34,17 @@ async function login(event) {
 
         const data = await response.json();
 
+
+        if(!data.access){
+            toastMessage("credentials not match")
+        }
+
         if (!response.ok) {
-            message.innerText = "Login failed";
+            message.innerText = "credentail not match";
             message.style.color ="red"
             console.log(data);
             return;
         }
-
         localStorage.setItem("access", data.access);
         localStorage.setItem("refresh", data.refresh);
 
@@ -58,12 +73,19 @@ async function login(event) {
         }
 
         if (userData.role === "user") {
-            window.location.href = "/user-dashboard/";
-        } else if (userData.role === "provider") {
-            window.location.href = "/provider-dashboard/";
-    
-        } else {
-            message.innerText = "Invalid role";
+
+            toastMessage("login successfully");
+            message.innerText = "login successfully";
+
+            setTimeout(function(){
+                window.location.href = "/user-dashboard/";
+            },2000);
+        } 
+        else if  (userData.role === "provider") {
+            setTimeout(function(){
+                window.location.href = "/provider-dashboard/";
+
+            }, 1000);
         }
 
     } catch (error) {

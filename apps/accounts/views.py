@@ -17,5 +17,8 @@ class userdashboard(TemplateView):
 class providerdashboard(TemplateView):
     template_name = "provider/dashboard.html"
 
+class createbooking(TemplateView):
+    template_name = "user/create_booking.html"    
+
 
 
