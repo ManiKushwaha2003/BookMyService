@@ -33,7 +33,7 @@ class ServiceByIdView(APIView):
         serializer = ServiceSerializer(service, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(ServiceSerializer.data, status=status.HTTP_200_OK)  
+            return Response(serializer.data, status=status.HTTP_200_OK)  
         return Response(serializer.errors)
 
 

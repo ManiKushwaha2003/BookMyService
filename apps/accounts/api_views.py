@@ -46,7 +46,7 @@ class UserByIdView(APIView):
 class ProviderProfileByIdView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request,user_id):
-        provider = ProviderProfile.objects.get(id=user_id)
+        provider = ProviderProfile.objects.get(user_id=user_id)
         serializer = ProviderProfileSerializer(provider)
         return Response(serializer.data, status=status.HTTP_200_OK)
      
@@ -57,21 +57,3 @@ class ProviderProfileByIdView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors) 
-
-
-class MyProviderProfileView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-
-        provider = ProviderProfile.objects.get(
-            user=request.user
-        )
-
-        serializer = ProviderProfileSerializer(provider)
-
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK
-        )
-

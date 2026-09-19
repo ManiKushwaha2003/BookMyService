@@ -213,46 +213,24 @@ bookings.slice(0, 5).forEach(function(booking) {
     table.innerHTML += `
 
         <tr>
-
             <td>
-
                 <div class="service-name">
-
                     <div class="table-icon">
-
                         <i class="bi bi-tools"></i>
-
                     </div>
-
                     ${service ? service.name : "Service"}
-
                 </div>
-
             </td>
-
-
             <td>
-
                 ${booking.description || "-"}
-
             </td>
-
-
             <td>
-
                 ${providerName}
-
             </td>
-
-
             <td>
-
                 <span class="status-badge ${statusClass}">
-
                     ${booking.status}
-
                 </span>
-
             </td>
         </tr>
     `;

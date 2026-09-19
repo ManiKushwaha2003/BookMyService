@@ -22,25 +22,7 @@ class BookingAPIView(APIView):
             return Response(serializer.data, status= status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ProviderPendingBookingsView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-
-        provider = ProviderProfile.objects.get(user=request.user)
-
-        bookings = Booking.objects.filter(
-            service__in=provider.services.all(),
-            status="PENDING"
-        )
-
-        serializer = BookingSerializer(bookings, many=True)
-
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK
-        )    
-
+   
 class BookingByIdView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request,id):

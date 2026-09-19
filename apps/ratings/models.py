@@ -9,7 +9,7 @@ class Rating(models.Model):
 
     client = models.ForeignKey(User, on_delete=models.CASCADE,related_name="rating")
     provider = models.ForeignKey(ProviderProfile, on_delete=models.CASCADE, related_name="rating")
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="rating")
+    booking = models.OneToOneField(Booking, on_delete=models.CASCADE, related_name="rating")
     rating = models.IntegerField()
     comment = models.TextField(blank=True)
 
