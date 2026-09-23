@@ -57,3 +57,12 @@ class ProviderProfileByIdView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors) 
+
+
+class MeView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request):
+        return Response(status=status.HTTP_200_OK)
+    
+
+    

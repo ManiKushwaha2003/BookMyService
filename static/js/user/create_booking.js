@@ -1,9 +1,3 @@
-const token = localStorage.getItem("access");
-
-if (!token) {
-    window.location.href = "/accounts/user/login/";
-}
-
 
 function getUserId() {
     const payload = JSON.parse(atob(token.split(".")[1]));
@@ -84,7 +78,7 @@ const bookingform = document.getElementById("bookingForm")
         const description =document.getElementById("description").value;
 
         const message = document.getElementById("message");
-        const clientId = getUserId();
+        // const clientId = getUserId();
         try {
 
             const response = await fetch(
@@ -97,7 +91,7 @@ const bookingform = document.getElementById("bookingForm")
                     },
 
                     body: JSON.stringify({
-                        client: clientId,
+                        // client: clientId,
                         service: service,
                         description: description
                     })

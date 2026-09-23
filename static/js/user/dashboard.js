@@ -1,9 +1,4 @@
 
-const token = localStorage.getItem("access");
-
-if (!token) {
-window.location.href = "/accounts/user/login/";
-}
 
 function getUserId() {
 
@@ -119,7 +114,16 @@ try {
         "totalBookings"
     ).innerText = myBookings.length;
 
+    const pendingBookings = myBookings.filter(function(booking){
+        return booking.status === "PENDING";
+    });
 
+    const completedBooking = myBookings.filter(function(booking){
+        return booking.status === "COMPLETED"
+    });
+
+    document.getElementById("pendingBookings").innerText = pendingBookings.length;
+    document.getElementById("completedBookings").innerText = completedBooking.length
 
     const services = await getServices();
     const providers = await getProviders();
@@ -232,6 +236,7 @@ bookings.slice(0, 5).forEach(function(booking) {
                     ${booking.status}
                 </span>
             </td>
+            
         </tr>
     `;
 
@@ -250,6 +255,12 @@ function() {
             function() {
                 window.location.href ="/create-booking/";
             }
-        );
+        ); 
 }
 );
+
+
+function logout(){
+    localStorage.removeItem("access")
+    window.location.href="/accounts/user/login/"
+};

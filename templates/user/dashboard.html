@@ -12,9 +12,6 @@
 <aside class="dashboard-sidebar">
 
     <div class="sidebar-brand">
-        <div class="brand-icon">
-            <i class="bi bi-tools"></i>
-        </div>
         <span>BookMyService</span>
     </div>
 
@@ -25,7 +22,7 @@
             <span>Dashboard</span>
         </a>
 
-        <a href="#" class="sidebar-link">
+        <a href="/my_booking/" class="sidebar-link">
             <i class="bi bi-calendar-check"></i>
             <span>My Bookings</span>
         </a>
@@ -35,12 +32,12 @@
             <span>Find Service</span>
         </a>
 
-        <a href="#" class="sidebar-link">
+        <a href="/booking_offers/" class="sidebar-link">
             <i class="bi bi-tags"></i>
             <span>Offers</span>
         </a>
 
-        <a href="#" class="sidebar-link">
+        <a href="/profile/" class="sidebar-link">
             <i class="bi bi-person"></i>
             <span>Profile</span>
         </a>
@@ -49,7 +46,7 @@
 
     <div class="sidebar-bottom">
 
-        <a href="#" class="sidebar-link" id="logoutBtn">
+        <a onclick="logout()" class="sidebar-link" id="logoutBtn">
             <i class="bi bi-box-arrow-right"></i>
             <span>Logout</span>
         </a>
@@ -77,30 +74,18 @@
             </h2>
 
             <p class="dashboard-subtitle">
-                Manage your services and bookings from here.
+                Manage your bookings from here.
             </p>
-
-        </div>
-
-
-        <div class="header-profile">
-
-            <div class="notification">
-                <i class="bi bi-bell"></i>
-            </div>
-
-            <div class="profile-avatar" id="profileAvatar">
-                U
-            </div>
 
         </div>
 
     </div>
 
 
-    <!-- Stats -->
+    <!-- Dashboard Stats -->
     <div class="stats-grid">
 
+        <!-- Total Bookings -->
         <div class="stat-card">
 
             <div class="stat-icon blue">
@@ -115,20 +100,22 @@
         </div>
 
 
+        <!-- Pending Bookings -->
         <div class="stat-card">
 
             <div class="stat-icon orange">
-                <i class="bi bi-tags"></i>
+                <i class="bi bi-clock"></i>
             </div>
 
             <div>
-                <p>Pending Offers</p>
-                <h3 id="pendingOffers">0</h3>
+                <p>Pending Bookings</p>
+                <h3 id="pendingBookings">0</h3>
             </div>
 
         </div>
 
 
+        <!-- Completed Bookings -->
         <div class="stat-card">
 
             <div class="stat-icon green">
@@ -136,162 +123,21 @@
             </div>
 
             <div>
-                <p>Completed</p>
+                <p>Completed Bookings</p>
                 <h3 id="completedBookings">0</h3>
             </div>
 
         </div>
 
 
+        <!-- Book Service -->
         <div class="stat-card">
-
-            <div class="stat-icon purple">
-                <i class="bi bi-clock-history"></i>
-            </div>
-
-            <div>
-                <p>Active Jobs</p>
-                <h3 id="activeBookings">0</h3>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Services + Quick Action -->
-    <div class="dashboard-grid">
-
-
-        <!-- Services -->
-        <section class="dashboard-card services-card">
-
-            <div class="section-header">
-
-                <div>
-                    <h4>Book a Service</h4>
-
-                    <p>
-                        Choose the service you need
-                    </p>
-                </div>
-
-                <a href="#" class="view-link">
-                    View all
-                </a>
-
-            </div>
-
-
-            <div class="service-grid">
-
-
-                <div class="service-item">
-
-                    <div class="service-icon">
-                        <i class="bi bi-lightning-charge"></i>
-                    </div>
-
-                    <span>Electrician</span>
-
-                </div>
-
-
-                <div class="service-item">
-
-                    <div class="service-icon">
-                        <i class="bi bi-hammer"></i>
-                    </div>
-
-                    <span>Carpenter</span>
-
-                </div>
-
-
-                <div class="service-item">
-
-                    <div class="service-icon">
-                        <i class="bi bi-car-front"></i>
-                    </div>
-
-                    <span>Driver</span>
-
-                </div>
-
-
-                <div class="service-item">
-
-                    <div class="service-icon">
-                        <i class="bi bi-house"></i>
-                    </div>
-
-                    <span>Home Cleaner</span>
-
-                </div>
-
-
-                <div class="service-item">
-
-                    <div class="service-icon">
-                        <i class="bi bi-wrench-adjustable"></i>
-                    </div>
-
-                    <span>Plumber</span>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-        <!-- Quick Action -->
-        <section class="dashboard-card quick-card">
-
-            <div class="section-header">
-
-                <div>
-
-                    <h4>Quick Action</h4>
-
-                    <p>
-                        Need a service?
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="quick-action-box">
-
-                <div class="quick-action-icon">
-                    <i class="bi bi-plus-lg"></i>
-                </div>
-
-                <div>
-
-                    <h5>Create New Booking</h5>
-
-                    <p>
-                        Find a professional for your service.
-                    </p>
-
-                </div>
-
-            </div>
-
-
             <button class="primary-btn" id="bookServiceBtn">
-
+                <i class="bi bi-plus-lg"></i>
                 Book a Service
-
-                <i class="bi bi-arrow-right"></i>
-
             </button>
 
-        </section>
+        </div>
 
     </div>
 
@@ -311,11 +157,6 @@
 
             </div>
 
-
-            <a href="#" class="view-link">
-                View all
-            </a>
-
         </div>
 
 
@@ -326,17 +167,10 @@
                 <thead>
 
                     <tr>
-
                         <th>Service</th>
-
                         <th>Description</th>
-
                         <th>Provider</th>
-
                         <th>Status</th>
-
-                        <th>Action</th>
-
                     </tr>
 
                 </thead>
@@ -347,9 +181,7 @@
                     <tr>
 
                         <td colspan="5" class="text-center">
-
                             Loading bookings...
-
                         </td>
 
                     </tr>
@@ -362,14 +194,10 @@
 
     </section>
 
-
 </main>
-```
 
 </div>
-
-<!-- User Dashboard JavaScript -->
-
+<script src="{% static 'js/auth.js' %}"></script>
 <script src="{% static 'js/user/dashboard.js' %}"></script>
 
 {% endblock %}

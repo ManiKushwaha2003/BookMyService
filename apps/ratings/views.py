@@ -25,7 +25,13 @@ class RatingAPIView(APIView):
             return Response(
                 {"msg": "Provider is not selected"},
                 status=status.HTTP_400_BAD_REQUEST
+        )
+        if Rating.objects.filter(booking=booking).exists():
+            return Response(
+                {"msg": "This booking has already been rated"},
+                status=status.HTTP_400_BAD_REQUEST
             )
+
 
         rating = Rating.objects.create(
             client=booking.client,

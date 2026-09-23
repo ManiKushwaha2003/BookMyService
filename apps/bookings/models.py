@@ -52,6 +52,7 @@ class BookingOffer(TimeStampedMixing):
         ("PENDING","Pending"),
         ("ACCEPTED","Accepted"),
         ("REJECTED", "Rejected"),
+        ("COMPLETED", "Completed"),
     )
 
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="offers")

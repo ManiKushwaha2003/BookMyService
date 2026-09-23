@@ -11,14 +11,14 @@ from apps.accounts.models import ProviderProfile
 class BookingAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):
-        booking = Booking.objects.all()
+        booking = Booking.objects.filter(client=request.user)
         serializer = BookingSerializer(booking, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self,request):
-        serializer = BookingSerializer(data = request.data)
+        serializer = BookingSerializer(data = request.data,)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(client=request.user)
             return Response(serializer.data, status= status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -46,7 +46,7 @@ class BookingByIdView(APIView):
 class BookingOfferAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):
-        offer = BookingOffer.objects.all()
+        offer = BookingOffer.objects.filter(booking__client=request.user)
         serializer = BookingOfferSerializer(offer, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -119,3 +119,61 @@ class AcceptOfferView(APIView):
 
         return Response({"msg":"Provider Selecled Succesfully"}, status=status.HTTP_200_OK)
 
+class BookingCompleteAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, booking_id):
+
+        try:
+            booking = Booking.objects.get(id=booking_id)
+        except Booking.DoesNotExist:
+            return Response(
+                {"msg": "Booking not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # If booking is already completed,
+        # make sure accepted offer is also completed
+        if booking.status == "COMPLETED":
+
+            BookingOffer.objects.filter(
+                booking=booking,
+                status="ACCEPTED"
+            ).update(
+                status="COMPLETED"
+            )
+
+            return Response(
+                {
+                    "msg": "Booking is already completed",
+                    "status": booking.status
+                },
+                status=status.HTTP_200_OK
+            )
+
+        # Booking must be accepted before completing
+        if booking.status != "ACCEPTED":
+            return Response(
+                {"msg": "Booking is not accepted"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Update Booking
+        booking.status = "COMPLETED"
+        booking.save()
+
+        # Update accepted BookingOffer
+        BookingOffer.objects.filter(
+            booking=booking,
+            status="ACCEPTED"
+        ).update(
+            status="COMPLETED"
+        )
+
+        return Response(
+            {
+                "msg": "Booking completed successfully",
+                "status": booking.status
+            },
+            status=status.HTTP_200_OK
+        )

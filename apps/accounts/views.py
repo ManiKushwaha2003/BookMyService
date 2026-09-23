@@ -20,5 +20,17 @@ class providerdashboard(TemplateView):
 class createbooking(TemplateView):
     template_name = "user/create_booking.html"    
 
+class profile(TemplateView):
+    template_name = "user/profile.html"    
+
+class booking_offers(TemplateView):
+    template_name = "user/booking_offers.html"       
+
+
+class my_booking(TemplateView):
+    template_name = "user/my_booking.html"      
+
+class rating(TemplateView):
+    template_name = "user/rating.html"
 
 

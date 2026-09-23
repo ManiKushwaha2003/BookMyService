@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Rating | BookMyService{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h3 class="mb-4 text-center">Rate Provider</h3>
+
+                    <div id="ratingMessage"></div>
+
+                    <form id="ratingForm">
+
+                        <!-- Booking ID -->
+                        <div class="mb-3">
+                            <label class="form-label">Booking ID</label>
+                            <input
+                                type="text"
+                                id="bookingId"
+                                class="form-control"
+                                readonly
+                            >
+                        </div>
+
+                        <!-- Client -->
+                        <div class="mb-3">
+                            <label class="form-label">Client Name</label>
+                            <input
+                                type="text"
+                                id="clientName"
+                                class="form-control"
+                                readonly
+                            >
+                        </div>
+
+                        <!-- Provider -->
+                        <div class="mb-3">
+                            <label class="form-label">Provider Name</label>
+                            <input
+                                type="text"
+                                id="providerName"
+                                class="form-control"
+                                readonly
+                            >
+                        </div>
+
+
+                        <!-- Service -->
+                        <div class="mb-3">
+                            <label class="form-label">Service</label>
+                            <input
+                                type="text"
+                                id="serviceName"
+                                class="form-control"
+                                readonly
+                            >
+                        </div>
+
+                        <!-- Rating -->
+                        <div class="mb-3">
+                            <label class="form-label">Rating</label>
+
+                            <select
+                                id="rating"
+                                class="form-select"
+                                required
+                            >
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Good</option>
+                                <option value="2">2 - Average</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <!-- Comment -->
+                        <div class="mb-3">
+                            <label class="form-label">Comment</label>
+
+                            <textarea
+                                id="comment"
+                                class="form-control"
+                                rows="4"
+                                placeholder="Write your feedback"
+                            ></textarea>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100"
+            
+                        >
+                            Submit Rating
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/auth.js' %}"></script>
+<script src="{% static 'js/user/rating.js' %}"></script>
+
+{% endblock %}

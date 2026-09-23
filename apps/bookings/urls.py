@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .api_views import BookingAPIView, BookingByIdView, BookingOfferAPIView, BookingOfferById, AcceptOfferView, BookingoffersByBookingView
+from .api_views import BookingAPIView, BookingByIdView, BookingOfferAPIView, BookingOfferById, AcceptOfferView, BookingoffersByBookingView, BookingCompleteAPIView
 
 urlpatterns = [
     
@@ -12,5 +12,10 @@ urlpatterns = [
 
     path("booking/<int:booking_id>/offers/", BookingoffersByBookingView.as_view(),name="booking_offers"),
     path("booking/offer/accept/<int:id>",AcceptOfferView.as_view(), name="accept"),
+
+    path(
+    "booking/<int:booking_id>/complete/",
+    BookingCompleteAPIView.as_view()
+),
 
 ]
