@@ -5,67 +5,89 @@
 
 {% block content %}
 
-<div class="container py-5">
+<div class="dashboard-wrapper">
 
-    <div class="mb-4">
-        <h3 class="fw-semibold mb-1">
-            <i class="bi bi-tags me-2 text-primary"></i>
-            Booking Offers
-        </h3>
+    {% include "includes/user_sidebar.html" %}
 
-        <p class="text-muted mb-0">
-            View offers received from service providers
-        </p>
-    </div>
+    <main class="dashboard-main">
 
-    <div id="offerMessage"></div>
+        <div class="dashboard-header">
 
-    <div class="card border-0 shadow-sm">
+            <div>
 
-        <div class="card-body p-0">
+                <p class="dashboard-label">
+                    BOOKING OFFERS
+                </p>
+
+                <h2>
+                    Booking Offers
+                </h2>
+
+                <p class="dashboard-subtitle">
+                    View offers received from service providers.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="offerMessage"></div>
+
+
+        <section class="dashboard-card bookings-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h4>Booking Offers</h4>
+
+                    <p>
+                        View offers received from service providers
+                    </p>
+
+                </div>
+
+            </div>
+
 
             <div class="table-responsive">
 
-                <table class="table table-hover align-middle mb-0">
+                <table class="dashboard-table">
 
-                    <thead class="table-light">
+                    <thead>
 
                         <tr>
                             <th>Booking ID</th>
-                            <th>Serviec</th>
+                            <th>Service</th>
                             <th>Provider</th>
                             <th>Rating</th>
                             <th>Price</th>
-                            <th>Message</th>
                             <th>Status</th>
-                            <th >Action</th>
+                            <th>Action</th>
                         </tr>
 
                     </thead>
 
-                    <tbody id="offersTable">
 
+                    <tbody id="offersTable">
 
                     </tbody>
 
                 </table>
-   
-            </div>
-       
-        </div>
-  
-    </div>
-                         <a
-                                href="/user-dashboard/"
-                                class="btn btn-outline-secondary"
-                            >
-                                <i class="bi bi-arrow-left me-1"></i>
-                                Back
-                            </a>
-</div>
 
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
 
 <script src="{% static 'js/auth.js' %}"></script>
 <script src="{% static 'js/user/booking_offers.js' %}"></script>
 
 {% endblock %}
+

@@ -1,0 +1,124 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}View User | BookMyService{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+    {% include "includes/user_sidebar.html" %}
+
+    <main class="dashboard-main">
+
+        <div class="dashboard-header">
+
+            <div>
+                <p class="dashboard-label">
+                    USER MANAGEMENT
+                </p>
+
+                <h2>
+                    User Details
+                </h2>
+
+                <p class="dashboard-subtitle">
+                    View complete user information.
+                </p>
+            </div>
+
+        </div>
+
+
+        <section class="dashboard-card">
+
+            <div class="section-header">
+
+                <div>
+                    <h4>User Information</h4>
+                    <p>Complete details of the selected user.</p>
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">User ID</label>
+                    <input type="text" id="userId" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="username" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">First Name</label>
+                    <input type="text" id="firstName" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" id="lastName" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="email" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Phone</label>
+                    <input type="text" id="phone" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Role</label>
+                    <input type="text" id="role" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Address</label>
+                    <input type="text" id="address" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Active</label>
+                    <input type="text" id="isActive" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Staff</label>
+                    <input type="text" id="isStaff" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Superuser</label>
+                    <input type="text" id="isSuperuser" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Date Joined</label>
+                    <input type="text" id="dateJoined" class="form-control" readonly>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Last Login</label>
+                    <input type="text" id="lastLogin" class="form-control" readonly>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="{% static 'js/auth.js' %}"></script>
+<script src="{% static 'js/user/user_view.js' %}"></script>
+
+{% endblock %}
+

@@ -1,55 +1,104 @@
+
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}My Bookings | BookMyService{% endblock %}
 
 {% block content %}
 
-<div class="container py-4">
+<div class="dashboard-wrapper">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="fw-bold mb-1">My Bookings</h2>
-            <p class="text-muted mb-0">
-                View and manage your service bookings.
-            </p>
+    {% include "includes/user_sidebar.html" %}
+
+    <main class="dashboard-main">
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <p class="dashboard-label">
+                    MY BOOKINGS
+                </p>
+
+                <h2>
+                    My Bookings
+                </h2>
+
+                <p class="dashboard-subtitle">
+                    View and manage your service bookings.
+                </p>
+
+            </div>
+
         </div>
-    </div>
+        <div class="mb-3">
 
-    <div class="card shadow-sm border-0">
-        <div class="card-body">
+        <input
+        type="text"
+        id="search"
+        class="form-control"
+        placeholder="Search ."
+        style="max-width: 300px;"
+    >
+    <select id="statusFilter" class="form-select" style="max-width: 250px;">
+        <option value="">All Bookings</option>
+        <option value="PENDING">Pending</option>
+        <option value="ACCEPTED">Accepted</option>
+        <option value="COMPLETED">Completed</option>
+        <option value="REJECTED">Rejected</option>
+    </select>
+</div>
+
+<div class="table-responsive">
+
+
+        <section class="dashboard-card bookings-card">
 
             <div class="table-responsive">
-                <table class="table table-hover align-middle">
 
-                    <thead class="table-light">
+                <table class="dashboard-table">
+
+                    <thead>
+
                         <tr>
                             <th>Booking ID</th>
                             <th>Service</th>
                             <th>Provider</th>
-                            <th>Description</th>
                             <th>Status</th>
                         </tr>
+
                     </thead>
 
+
                     <tbody id="bookingsTable">
-             
+
                     </tbody>
 
                 </table>
+
             </div>
 
-        </div>
-    </div>
-                         <a
-                                href="/user-dashboard/"
-                                class="btn btn-outline-secondary"
-                            >
-                                <i class="bi bi-arrow-left me-1"></i>
-                                Back
-                            </a>
+        </section>
+
+
+        {% comment %} <div class="mt-4">
+
+            <a
+                href="/user-dashboard/"
+                class="btn btn-outline-secondary"
+            >
+                <i class="bi bi-arrow-left me-1"></i>
+                Back
+            </a>
+
+        </div> {% endcomment %}
+
+    </main>
+
 </div>
 
 <script src="{% static 'js/auth.js' %}"></script>
 <script src="{% static 'js/user/my_booking.js' %}"></script>
+
 {% endblock %}
 

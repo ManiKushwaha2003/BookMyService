@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}User List | BookMyService{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+    {% include "includes/user_sidebar.html" %}
+
+    <main class="dashboard-main">
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <p class="dashboard-label">
+                    USERS
+                </p>
+
+                <h2>
+                    User List
+                </h2>
+
+                <p class="dashboard-subtitle">
+                    View and manage registered users.
+                </p>
+
+            </div>
+
+        </div>
+        <input
+        type="text"
+        id="search"
+        class="form-control"
+        placeholder="Search ."
+        style="max-width: 300px;"
+    >
+
+
+        <div id="userMessage"></div>
+
+
+        <section class="dashboard-card bookings-card">
+
+            <div class="table-responsive">
+
+                <table class="dashboard-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>User ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Is Active</th>
+                            <th>Phone</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="usersTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="{% static 'js/auth.js' %}"></script>
+<script src="{% static 'js/user/user_list.js' %}"></script>
+
+{% endblock %}

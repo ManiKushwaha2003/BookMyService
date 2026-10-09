@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+BookMyService - Google Authentication
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+
+                <div class="auth-card">
+
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold">Google Authentication</h2>
+                        <p class="text-muted">
+                            Please wait while we complete your Google login
+                        </p>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="spinner-border text-primary mb-3"
+                             role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+
+                        <p id="message" class="text-muted">
+                            Signing you in...
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{% static 'js/google_callback.js' %}"></script>
+<script src="{% static 'js/auth.js' %}"></script>
+
+{% endblock %}

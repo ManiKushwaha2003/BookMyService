@@ -7,53 +7,11 @@
 
 <div class="dashboard-wrapper">
 
-<!-- Sidebar -->
-<aside class="dashboard-sidebar">
+```
+{% include "includes/provider_sidebar.html" %}
 
-    <div class="sidebar-brand">
-        <span>BookMyService</span>
-    </div>
-
-    <div class="sidebar-menu">
-
-        <a href="#" class="sidebar-link active">
-            <i class="bi bi-grid-1x2"></i>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="/provider/requests/" class="sidebar-link">
-            <i class="bi bi-inbox"></i>
-            <span>Requests</span>
-        </a>
-
-        <a href="/provider/jobs/" class="sidebar-link">
-            <i class="bi bi-briefcase"></i>
-            <span>My Jobs</span>
-        </a>
-
-        <a href="/provider/profile/" class="sidebar-link">
-            <i class="bi bi-person"></i>
-            <span>Profile</span>
-        </a>
-
-    </div>
-
-    <div class="sidebar-bottom">
-
-        <a onclick="logout()" class="sidebar-link">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Logout</span>
-        </a>
-
-    </div>
-
-</aside>
-
-
-<!-- Main -->
 <main class="dashboard-main">
 
-    <!-- Header -->
     <div class="dashboard-header">
 
         <div>
@@ -76,10 +34,8 @@
     </div>
 
 
-    <!-- Stats -->
     <div class="stats-grid">
 
-        <!-- Pending Requests -->
         <div class="stat-card">
 
             <div class="stat-icon blue">
@@ -94,22 +50,6 @@
         </div>
 
 
-        <!-- Active Jobs -->
-        <div class="stat-card">
-
-            <div class="stat-icon orange">
-                <i class="bi bi-briefcase"></i>
-            </div>
-
-            <div>
-                <p>Active Jobs</p>
-                <h3 id="activeJobs">0</h3>
-            </div>
-
-        </div>
-
-
-        <!-- Completed Jobs -->
         <div class="stat-card">
 
             <div class="stat-icon green">
@@ -124,7 +64,6 @@
         </div>
 
 
-        <!-- Rating -->
         <div class="stat-card">
 
             <div class="stat-icon purple">
@@ -141,7 +80,6 @@
     </div>
 
 
-    <!-- Service Requests -->
     <section class="dashboard-card">
 
         <div class="section-header">
@@ -170,65 +108,7 @@
 
                 </thead>
 
-
                 <tbody id="requestsTable">
-
-                    <tr>
-
-                        <td colspan="5" class="text-center">
-                            Loading requests...
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
-
-
-    <!-- My Jobs -->
-    <section class="dashboard-card mt-4">
-
-        <div class="section-header">
-
-            <div>
-                <h4>My Jobs</h4>
-                <p>Your current bookings</p>
-            </div>
-
-        </div>
-
-
-        <div class="table-responsive">
-
-            <table class="dashboard-table">
-
-                <thead>
-
-                    <tr>
-                        <th>Customer</th>
-                        <th>Service</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                    </tr>
-
-                </thead>
-
-
-                <tbody id="jobsTable">
-
-                    <tr>
-
-                        <td colspan="4" class="text-center">
-                            Loading jobs...
-                        </td>
-
-                    </tr>
-
                 </tbody>
 
             </table>
@@ -238,7 +118,7 @@
     </section>
 
 </main>
-
+```
 
 </div>
 

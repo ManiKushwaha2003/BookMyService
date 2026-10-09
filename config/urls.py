@@ -16,6 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.contrib import admin
+from django.urls import include, path, re_path
+
+from apps.accounts.api_views import GoogleLogin, GoogleLoginCallback 
 
 API_PREFIX = "api"
 
@@ -29,4 +33,13 @@ urlpatterns = [
 
 
     path("", include("apps.core.urls")),
+    path('accounts/', include('allauth.urls')),
+
+    path("api/v1/auth/", include("dj_rest_auth.urls")),
+    re_path(r"^api/v1/auth/accounts/", include("allauth.urls")),
+    path("api/v1/auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("api/v1/auth/google/", GoogleLogin.as_view(), name="google_login"),
+    path("api/v1/auth/google/callback/",GoogleLoginCallback.as_view(), name="google_login_callback",),
+    
+    
 ]

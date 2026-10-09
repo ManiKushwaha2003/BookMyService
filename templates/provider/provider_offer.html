@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Send Offer | BookMyService{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+    {% include "includes/provider_sidebar.html" %}
+
+    <main class="dashboard-main">
+
+        <div class="container mt-4">
+
+            <h3 class="mb-4">Send Booking Offer</h3>
+
+            <div class="card">
+                <div class="card-body">
+
+                    <form id="offerForm">
+
+                        <div class="mb-3">
+                            <label class="form-label">Booking Id</label>
+                            <input type="number" id="bookingId"
+                                   class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Service</label>
+                            <input type="text" id="service"
+                                   class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <input type="number" id="price"
+                                   class="form-control"
+                                   placeholder="Enter price" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea id="messages"
+                                      class="form-control"
+                                      placeholder="Enter message"
+                                      rows="4"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Send Offer
+                        </button>
+
+                    </form>
+
+                    <div id="message" class="mt-3"></div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="{% static 'js/auth.js' %}"></script>
+<script src="{% static 'js/provider/provider_offer.js' %}"></script>
+
+{% endblock %}

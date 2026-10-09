@@ -32,6 +32,10 @@ class BookingOfferSerializer(serializers.ModelSerializer):
         source="provider.user.username",
         read_only=True
     )
+    client_name = serializers.CharField(
+        source="booking.client.username",
+        read_only=True
+    )
 
     service_name = serializers.CharField(
         source="booking.service.name",
@@ -40,10 +44,17 @@ class BookingOfferSerializer(serializers.ModelSerializer):
     provider_rating = serializers.SerializerMethodField()
     class Meta:
         model = BookingOffer
-        fields = "__all__"  
-
+        fields = "__all__"          
+        extra_kwargs = {
+            "provider": {"required": False}
+        }
     def get_provider_rating(self, obj):
-        rating = obj.provider.rating.aggregate(average=Avg("rating"))
-        return rating["average"] 
+        rating = obj.provider.rating.aggregate(
+            average=Avg("rating")
+        )
+
+        average_rating = rating["average"] or 0
+
+        return round(float(average_rating), 1)
     
 

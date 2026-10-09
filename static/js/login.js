@@ -33,8 +33,6 @@ async function login(event) {
         });
 
         const data = await response.json();
-
-
         if(!data.access){
             toastMessage("credentials not match")
         }
@@ -72,7 +70,7 @@ async function login(event) {
             return;
         }
 
-        if (userData.role === "user") {
+        if (userData.role === "user" || userData.role === "admin")  {
 
             toastMessage("login successfully");
             message.innerText = "login successfully";
@@ -82,6 +80,9 @@ async function login(event) {
             },2000);
         } 
         else if  (userData.role === "provider") {
+            toastMessage("login successfully");
+            message.innerText = "login successfully";
+            
             setTimeout(function(){
                 window.location.href = "/provider-dashboard/";
 

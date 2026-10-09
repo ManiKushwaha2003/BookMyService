@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% load static %}
 
@@ -7,152 +8,27 @@
 
 <div class="dashboard-wrapper">
 
+    {% include "includes/user_sidebar.html" %}
 
-<!-- Sidebar -->
-<aside class="dashboard-sidebar">
+    <!-- Main Dashboard -->
+    <main class="dashboard-main">
 
-    <div class="sidebar-brand">
-        <span>BookMyService</span>
-    </div>
-
-    <div class="sidebar-menu">
-
-        <a href="#" class="sidebar-link active">
-            <i class="bi bi-grid-1x2"></i>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="/my_booking/" class="sidebar-link">
-            <i class="bi bi-calendar-check"></i>
-            <span>My Bookings</span>
-        </a>
-
-        <a href="#" class="sidebar-link">
-            <i class="bi bi-search"></i>
-            <span>Find Service</span>
-        </a>
-
-        <a href="/booking_offers/" class="sidebar-link">
-            <i class="bi bi-tags"></i>
-            <span>Offers</span>
-        </a>
-
-        <a href="/profile/" class="sidebar-link">
-            <i class="bi bi-person"></i>
-            <span>Profile</span>
-        </a>
-
-    </div>
-
-    <div class="sidebar-bottom">
-
-        <a onclick="logout()" class="sidebar-link" id="logoutBtn">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Logout</span>
-        </a>
-
-    </div>
-
-</aside>
-
-
-<!-- Main Dashboard -->
-<main class="dashboard-main">
-
-    <!-- Header -->
-    <div class="dashboard-header">
-
-        <div>
-
-            <p class="dashboard-label">
-                USER DASHBOARD
-            </p>
-
-            <h2>
-                Welcome back,
-                <span id="username">User</span>
-            </h2>
-
-            <p class="dashboard-subtitle">
-                Manage your bookings from here.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- Dashboard Stats -->
-    <div class="stats-grid">
-
-        <!-- Total Bookings -->
-        <div class="stat-card">
-
-            <div class="stat-icon blue">
-                <i class="bi bi-calendar-check"></i>
-            </div>
-
-            <div>
-                <p>Total Bookings</p>
-                <h3 id="totalBookings">0</h3>
-            </div>
-
-        </div>
-
-
-        <!-- Pending Bookings -->
-        <div class="stat-card">
-
-            <div class="stat-icon orange">
-                <i class="bi bi-clock"></i>
-            </div>
-
-            <div>
-                <p>Pending Bookings</p>
-                <h3 id="pendingBookings">0</h3>
-            </div>
-
-        </div>
-
-
-        <!-- Completed Bookings -->
-        <div class="stat-card">
-
-            <div class="stat-icon green">
-                <i class="bi bi-check-circle"></i>
-            </div>
-
-            <div>
-                <p>Completed Bookings</p>
-                <h3 id="completedBookings">0</h3>
-            </div>
-
-        </div>
-
-
-        <!-- Book Service -->
-        <div class="stat-card">
-            <button class="primary-btn" id="bookServiceBtn">
-                <i class="bi bi-plus-lg"></i>
-                Book a Service
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- Recent Bookings -->
-    <section class="dashboard-card bookings-card">
-
-        <div class="section-header">
+        <!-- Header -->
+        <div class="dashboard-header">
 
             <div>
 
-                <h4>Recent Bookings</h4>
+                <p class="dashboard-label">
+                    USER DASHBOARD
+                </p>
 
-                <p>
-                    Your latest service requests
+                <h2>
+                    Welcome ,
+                    <span id="username">User</span>
+                </h2>
+
+                <p class="dashboard-subtitle">
+                    Manage your bookings from here.
                 </p>
 
             </div>
@@ -160,44 +36,157 @@
         </div>
 
 
-        <div class="table-responsive">
+        <!-- Dashboard Stats -->
+        <div class="stats-grid">
 
-            <table class="dashboard-table">
+            <!-- Total Bookings -->
+            <div class="stat-card">
 
-                <thead>
+                <div class="stat-icon blue">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
 
-                    <tr>
-                        <th>Service</th>
-                        <th>Description</th>
-                        <th>Provider</th>
-                        <th>Status</th>
-                    </tr>
+                <div>
+                    <p>Total Bookings</p>
+                    <h3 id="totalBookings">0</h3>
+                </div>
 
-                </thead>
+            </div>
 
 
-                <tbody id="bookingTable">
+            <!-- Pending Bookings -->
+            <div class="stat-card">
 
-                    <tr>
+                <div class="stat-icon orange">
+                    <i class="bi bi-clock"></i>
+                </div>
 
-                        <td colspan="5" class="text-center">
-                            Loading bookings...
-                        </td>
+                <div>
+                    <p>Pending Bookings</p>
+                    <h3 id="pendingBookings">0</h3>
+                </div>
 
-                    </tr>
+            </div>
 
-                </tbody>
 
-            </table>
+            <!-- Completed Bookings -->
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+
+                <div>
+                    <p>Completed Bookings</p>
+                    <h3 id="completedBookings">0</h3>
+                </div>
+
+            </div>
+
+            <!-- Book Service -->
+            <div class="stat-card" id="bookingid">
+
+                <button class="primary-btn" id="bookServiceBtn">
+                    <i class="bi bi-plus-lg"></i>
+                    Book a Service
+                </button>
+
+            </div>
+
+
+        <!-- total user -->
+            <div class="stat-card" id="totaluserid">
+
+                <div class="stat-icon green">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+
+                <div>
+                    <p> Total User </p>
+                    <h3 id="totaluser">0</h3>
+                </div>
+
+            </div>
+
+        <!-- total provider user -->
+        
+            <div class="stat-card" id="totalproviderid">
+
+                <div class="stat-icon green">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+
+                <div>
+                    <p> Total Provider</p>
+                    <h3 id="totalprovider">0</h3>
+                </div>
+
+            </div>            
+
+
+
 
         </div>
 
-    </section>
 
-</main>
+        <!-- Recent Bookings -->
+        <section class="dashboard-card bookings-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h4>Recent Bookings</h4>
+
+                    <p>
+                        Your latest service requests
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="dashboard-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Service</th>
+                            {% comment %} <th>Description</th> {% endcomment %}
+                            <th>Provider</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="bookingTable">
+
+                        <tr>
+
+                            <td colspan="5" class="text-center">
+                                Loading bookings...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </div>
+
 <script src="{% static 'js/auth.js' %}"></script>
 <script src="{% static 'js/user/dashboard.js' %}"></script>
 
 {% endblock %}
+

@@ -23,8 +23,7 @@ async function getUserData() {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
-            }
-        );
+            } );
 
         const data = await response.json();
 
@@ -88,4 +87,17 @@ async function updateuser() {
         console.log(error)
     }
     
+}
+function validatePermission() {
+
+    if (userData.role == "provider" && isProtected) {
+        toastMessage("You don't have permission to access this page!");
+ 
+        setTimeout(() => {
+            localStorage.removeItem("access");
+            window.location.href = "/accounts/user/login/";
+        }, 1000);
+ 
+        return;
+    }
 }

@@ -1,0 +1,218 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+Select Role
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card shadow p-4">
+
+                <h3 class="text-center mb-3">
+                    Select Your Role
+                </h3>
+
+                <p class="text-center text-muted" id="welcome">
+                    Welcome
+                </p>
+
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        class="form-control"
+                        readonly
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        class="form-control"
+                        readonly
+                    >
+                </div>
+
+                <form id="roleForm">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+
+                        <select id="role" class="form-select" required>
+                            <option value="">Select Role</option>
+                            <option value="user">User</option>
+                            <option value="provider">Provider</option>
+                        </select>
+                    </div>
+
+                    <div id="message" class="mb-3 text-danger"></div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        Continue
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+async function checkRole() {
+
+    const access = localStorage.getItem("access");
+
+    if (!access) {
+        window.location.href = "/accounts/user/login/";
+        return;
+    }
+
+    try {
+
+        const response = await fetch("/api/accounts/select-role/", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + access
+            }
+        });
+
+        const data = await response.json();
+
+        console.log("ROLE DATA:", data);
+
+        if (!response.ok) {
+            localStorage.removeItem("access");
+            localStorage.removeItem("refresh");
+
+            window.location.href = "/accounts/user/login/";
+            return;
+        }
+
+        document.getElementById("username").value = data.username || "";
+        document.getElementById("email").value = data.email || "";
+
+        document.getElementById("welcome").innerText =
+            "Welcome, " + (data.username || "User");
+
+
+        // Role already exists
+        if (data.role === "provider") {
+
+            window.location.href = "/provider-dashboard/";
+            return;
+
+        }
+
+        if (data.role === "user" || data.role === "admin") {
+
+            window.location.href = "/user-dashboard/";
+            return;
+        }
+
+    } catch (error) {
+
+        console.error("ROLE CHECK ERROR:", error);
+
+        document.getElementById("message").innerText =
+            "Something went wrong";
+    }
+}
+
+
+// Save selected role
+document.getElementById("roleForm").addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const role = document.getElementById("role").value;
+        const access = localStorage.getItem("access");
+
+        if (!role) {
+
+            document.getElementById("message").innerText =
+                "Please select a role";
+
+            return;
+        }
+
+        try {
+
+            const response = await fetch(
+                "/api/accounts/select-role/",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access
+                    },
+
+                    body: JSON.stringify({
+                        role: role
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            console.log("ROLE SAVE:", data);
+
+            if (response.ok) {
+
+                // Save new JWT tokens
+                localStorage.setItem("access", data.access);
+                localStorage.setItem("refresh", data.refresh);
+
+
+                if (data.role === "provider") {
+
+                    window.location.href =
+                        "/provider-dashboard/";
+
+                } else if (
+                    data.role === "user" ||
+                    data.role === "admin"
+                ) {
+
+                    window.location.href =
+                        "/user-dashboard/";
+                }
+
+            } else {
+
+                document.getElementById("message").innerText =
+                    data.error || "Something went wrong";
+            }
+
+        } catch (error) {
+
+            console.error("ROLE SAVE ERROR:", error);
+
+            document.getElementById("message").innerText =
+                "Something went wrong";
+        }
+    }
+);
+
+
+checkRole();
+
+</script>
+
+{% endblock %}
+

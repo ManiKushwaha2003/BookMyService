@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% load static %}
 
@@ -5,73 +6,114 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="dashboard-wrapper">
 
-    <div class="card p-4 mx-auto" style="max-width: 600px;">
+    {% include "includes/user_sidebar.html" %}
 
-        <h3>Create New Booking</h3>
+    <main class="dashboard-main">
 
-        <p class="text-muted">
-            Select a service and describe your requirement.
-        </p>
+        <div class="dashboard-header">
+
+            <div>
+
+                <p class="dashboard-label">
+                    CREATE BOOKING
+                </p>
+
+                <h2>
+                    Create New Booking
+                </h2>
+
+                <p class="dashboard-subtitle">
+                    Select a service and describe your requirement.
+                </p>
+
+            </div>
+
+        </div>
+
 
         <div id="message"></div>
 
-        <form id="bookingForm">
 
-            <!-- Client -->
-            <div class="mb-3">
-                <label class="form-label">Client</label>
+        <div class="card p-4 mx-auto" style="max-width: 600px;">
 
-                <input
-                    type="text"
-                    id="client"
-                    class="form-control"
-                    readonly
-                >
-            </div>
+            <form id="bookingForm">
 
-            <!-- Service -->
-            <div class="mb-3">
-                <label class="form-label">Select Service</label>
+                <!-- Client -->
+                <div class="mb-3">
 
-                <select
-                    id="service"
-                    class="form-select"
-                    required
-                >
-                    <option value="">
+                    <label class="form-label">
+                        Client
+                    </label>
+
+                    <input
+                        type="text"
+                        id="client"
+                        class="form-control"
+                        readonly
+                    >
+
+                </div>
+
+
+                <!-- Service -->
+                <div class="mb-3">
+
+                    <label class="form-label">
                         Select Service
-                    </option>
-                </select>
-            </div>
+                    </label>
 
-            <!-- Description -->
-            <div class="mb-3">
-                <label class="form-label">Description</label>
+                    <select
+                        id="service"
+                        class="form-select"
+                        required
+                    >
 
-                <textarea
-                    id="description"
-                    class="form-control"
-                    rows="4"
-                    placeholder="Describe your service requirement"
-                    required
-                ></textarea>
-            </div>
+                        <option value="">
+                            Select Service
+                        </option>
 
-            <button
-                type="submit"
-                class="btn btn-primary"
-            >
-                Create Booking
-            </button>
+                    </select>
 
-        </form>
+                </div>
 
-    </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Describe your service requirement"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Create Booking
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
 
 </div>
+
 <script src="{% static 'js/auth.js' %}"></script>
 <script src="{% static 'js/user/create_booking.js' %}"></script>
 
 {% endblock %}
+

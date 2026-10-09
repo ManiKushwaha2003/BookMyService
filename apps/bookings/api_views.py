@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Q
 
 from .models import BookingOffer,Booking
 from .serializers import BookingSerializer,BookingOfferSerializer
@@ -10,8 +11,27 @@ from apps.accounts.models import ProviderProfile
 
 class BookingAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    def get(self,request):
-        booking = Booking.objects.filter(client=request.user)
+    def get(self,request):   
+        print("request user :", request.user.id)
+        print("Role inside booking :", request.user.role)
+        if request.user.is_superuser:
+            booking = Booking.objects.all()
+        else:
+            booking = Booking.objects.filter(client=request.user)
+
+        search = request.query_params.get("search")
+   
+        booking_status = request.query_params.get("status")
+
+        if booking_status:
+            booking = booking.filter(status=booking_status)
+
+        if search:
+            booking = booking.filter(
+                Q(service__name__icontains=search) |
+                Q(provider__user__username__icontains=search)
+            )
+
         serializer = BookingSerializer(booking, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -46,29 +66,51 @@ class BookingByIdView(APIView):
 class BookingOfferAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):
-        offer = BookingOffer.objects.filter(booking__client=request.user)
+        if request.user.is_superuser:
+            offer = BookingOffer.objects.all()
+        else:
+            offer = BookingOffer.objects.filter(booking__client=request.user)
         serializer = BookingOfferSerializer(offer, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self,request):
-        booking_id = request.data.get("booking")
-        provider_id = request.data.get("provider")
 
+        booking_id = request.data.get("booking")
         booking = Booking.objects.get(id=booking_id)
 
         if booking.status != "PENDING":
-            return Response({"msg":"this booking is accepted"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"msg":"this booking is accepted"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        offer_exists=BookingOffer.objects.filter(booking_id=booking_id, provider_id=provider_id).exists()
+        provider = ProviderProfile.objects.get(user=request.user)
+
+        offer_exists = BookingOffer.objects.filter(
+            booking_id=booking_id,
+            provider=provider
+        ).exists()
 
         if offer_exists:
-            return Response({"msg":"already send a offer"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"msg":"already send a offer"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         serializer = BookingOfferSerializer(data=request.data)
+
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer.save(provider=provider)
+
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 class BookingOfferById(APIView):
     permission_classes = [IsAuthenticated]
@@ -121,7 +163,6 @@ class AcceptOfferView(APIView):
 
 class BookingCompleteAPIView(APIView):
     permission_classes = [IsAuthenticated]
-
     def patch(self, request, booking_id):
 
         try:
@@ -131,9 +172,6 @@ class BookingCompleteAPIView(APIView):
                 {"msg": "Booking not found"},
                 status=status.HTTP_404_NOT_FOUND
             )
-
-        # If booking is already completed,
-        # make sure accepted offer is also completed
         if booking.status == "COMPLETED":
 
             BookingOffer.objects.filter(
@@ -151,7 +189,6 @@ class BookingCompleteAPIView(APIView):
                 status=status.HTTP_200_OK
             )
 
-        # Booking must be accepted before completing
         if booking.status != "ACCEPTED":
             return Response(
                 {"msg": "Booking is not accepted"},
@@ -177,3 +214,53 @@ class BookingCompleteAPIView(APIView):
             },
             status=status.HTTP_200_OK
         )
+class BookingProviderPendingView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        provider = ProviderProfile.objects.get(user=request.user)
+        bookings = Booking.objects.filter(
+            service__in=provider.services.all(),
+            status="PENDING"
+        )
+
+        serializer = BookingSerializer(bookings, many=True)
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK
+        )    
+
+class ProviderWorkAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        provider = ProviderProfile.objects.get(
+            user=request.user
+        )
+
+        offers = BookingOffer.objects.filter(
+            provider=provider,status="COMPLETED"
+        )
+
+
+        search = request.query_params.get("search","").strip()
+        booking_status = request.query_params.get("status","").strip()
+
+        if booking_status:
+            offers = offers.filter(status=booking_status)
+
+        if search:
+            offers = offers.filter(
+                Q(booking__client__username__icontains=search) |
+                Q(booking__service__name__icontains=search)
+            )  
+
+        serializer = BookingOfferSerializer(
+            offers,
+            many=True
+        )
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK
+        )    

@@ -53,7 +53,7 @@ class BookingOffer(TimeStampedMixing):
         ("ACCEPTED","Accepted"),
         ("REJECTED", "Rejected"),
         ("COMPLETED", "Completed"),
-    )
+    ) 
 
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="offers")
     provider = models.ForeignKey(ProviderProfile, on_delete=models.CASCADE, related_name="offers")

@@ -12,7 +12,7 @@ class User(AbstractUser):
         ("provider", "Provider"),
         ("user", "User"),
     )
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="user")
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, null=True, blank=True)
     phone = models.CharField(max_length=10, blank=True, null=True)
     address = models.CharField(max_length=100, blank=True)
     email = models.EmailField(unique=True)

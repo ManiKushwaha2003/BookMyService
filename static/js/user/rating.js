@@ -93,3 +93,16 @@ document.getElementById("ratingForm").addEventListener(
     "submit",
     provider_rating
 );
+function validatePermission() {
+
+    if (userData.role == "provider" && isProtected) {
+        toastMessage("You don't have permission to access this page!");
+ 
+        setTimeout(() => {
+            localStorage.removeItem("access");
+            window.location.href = "/accounts/user/login/";
+        }, 1000);
+ 
+        return;
+    }
+}

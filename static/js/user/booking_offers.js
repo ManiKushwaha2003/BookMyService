@@ -61,7 +61,7 @@ async function bookingoffer() {
         <td>${bookingoffers.provider_name}</td>
         <td>${bookingoffers.provider_rating}</td>
         <td>${bookingoffers.price}</td>
-        <td>${bookingoffers.messages}</td>
+
         <td>${bookingoffers.status}</td>
         <td>${button}</td>
     
@@ -125,4 +125,17 @@ async function complete(bookingId) {
 }
 function rating(bookingid) {
     window.location.href = `/rating/${bookingid}`;
+}
+function validatePermission() {
+
+    if (userData.role == "provider" && isProtected) {
+        toastMessage("You don't have permission to access this page!");
+ 
+        setTimeout(() => {
+            localStorage.removeItem("access");
+            window.location.href = "/accounts/user/login/";
+        }, 1000);
+ 
+        return;
+    }
 }

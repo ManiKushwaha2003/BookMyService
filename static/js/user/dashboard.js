@@ -23,11 +23,8 @@ try {
     );
 
     const data = await response.json();
-
-    if (!response.ok) {
-        return;
-    }
-
+    userData = data;
+    document.getElementById("username").innerText = data.username;
 
 } catch (error) {
     console.log("User Error:", error);
@@ -78,171 +75,111 @@ try {
 }
 }
 
-
 async function getBookings() {
 
-try {
-    const response = await fetch(
-        "/api/bookings/booking/",
-        {
+    try {
+
+        const response = await fetch("/api/bookings/booking/", {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
+        });
+
+        const bookings = await response.json();
+
+        console.log("Bookings:", bookings);
+
+        if (!response.ok) {
+            console.log("Booking API Error:", bookings);
+            return;
         }
-    );
 
-    const bookings = await response.json();
-    if (!response.ok) {
+        document.getElementById("totalBookings").innerText =
+            bookings.length;
 
-        console.log("Booking API Error:",bookings
-        );
+        const pendingBookings = bookings.filter(function(booking) {
+            return booking.status === "PENDING";
+        });
+
+        const completedBookings = bookings.filter(function(booking) {
+            return booking.status === "COMPLETED";
+        });
+
+        document.getElementById("pendingBookings").innerText =
+            pendingBookings.length;
+
+        document.getElementById("completedBookings").innerText =
+            completedBookings.length;
+
+        showBookings(bookings);
+
+    } catch (error) {
+
+        console.log("Booking Error:", error);
+
+    }
+}
+
+function showBookings(bookings) {
+
+    const table = document.getElementById("bookingTable");
+
+    table.innerHTML = "";
+
+    if (bookings.length === 0) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="3" class="text-center">
+                    No bookings found
+                </td>
+            </tr>
+        `;
         return;
     }
 
-    const userId = getUserId();
+    bookings.forEach(function(booking) {
 
-    const myBookings = bookings.filter(function(booking) {
+        let statusClass = "pending";
 
-        return Number(booking.client) === Number(userId);
-
-    });
-
-
-    console.log("My Bookings:", myBookings);
-
-    document.getElementById(
-        "totalBookings"
-    ).innerText = myBookings.length;
-
-    const pendingBookings = myBookings.filter(function(booking){
-        return booking.status === "PENDING";
-    });
-
-    const completedBooking = myBookings.filter(function(booking){
-        return booking.status === "COMPLETED"
-    });
-
-    document.getElementById("pendingBookings").innerText = pendingBookings.length;
-    document.getElementById("completedBookings").innerText = completedBooking.length
-
-    const services = await getServices();
-    const providers = await getProviders();
-
-    showBookings( myBookings,services,providers
-    );
-
-    await getOffersCount(myBookings);
-
-
-} catch (error) {
-
-    console.log("Booking Error:", error
-    );
-
-}
-
-
-}
-
-
-function showBookings(bookings,services,providers) {
-
-const table = document.getElementById( "bookingTable" );
-
-table.innerHTML = "";
-if (bookings.length === 0) {
-    table.innerHTML = `
-        <tr>
-            <td colspan="5" class="text-center">
-                No bookings found
-            </td>
-        </tr>
-    `;
-
-    return;
-
-}
-
-
-bookings.slice(0, 5).forEach(function(booking) {
-
-    const service = services.find(function(item) {
-
-        return Number(item.id) === Number(
-            booking.service
-        );
-
-    });
-
-    let providerName = "";
-    if (booking.provider) {
-
-        const provider = providers.find(function(item) {
-
-            return Number(item.id) === Number(
-                booking.provider
-            );
-
-        });
-
-
-        if (provider) {
-
-            providerName =
-                provider.username;
-
+        if (booking.status === "ACCEPTED") {
+            statusClass = "accepted";
         }
 
-    }
+        if (booking.status === "IN_PROGRESS") {
+            statusClass = "active";
+        }
 
+        if (booking.status === "COMPLETED") {
+            statusClass = "completed";
+        }
 
-    let statusClass = "pending";
-    if (booking.status === "ACCEPTED") {
-        statusClass = "accepted";
+        if (booking.status === "REJECTED") {
+            statusClass = "rejected";
+        }
 
-    }
-    if (booking.status === "IN_PROGRESS") {
-        statusClass = "active";
-    }
-    if (booking.status === "COMPLETED") {
-
-        statusClass = "completed";
-
-    }
-    if (booking.status === "REJECTED") {
-
-        statusClass = "rejected";
-
-    }
-    table.innerHTML += `
-
-        <tr>
-            <td>
-                <div class="service-name">
-                    <div class="table-icon">
-                        <i class="bi bi-tools"></i>
+        table.innerHTML += `
+            <tr>
+                <td>
+                    <div class="service-name">
+                        <div class="table-icon">
+                            <i class="bi bi-tools"></i>
+                        </div>
+                        ${booking.service_name || "Service"}
                     </div>
-                    ${service ? service.name : "Service"}
-                </div>
-            </td>
-            <td>
-                ${booking.description || "-"}
-            </td>
-            <td>
-                ${providerName}
-            </td>
-            <td>
-                <span class="status-badge ${statusClass}">
-                    ${booking.status}
-                </span>
-            </td>
-            
-        </tr>
-    `;
+                </td>
 
-});
+                <td>
+                    ${booking.provider_name || "Not Assigned"}
+                </td>
 
-
+                <td>
+                    <span class="status-badge ${statusClass}">
+                        ${booking.status}
+                    </span>
+                </td>
+            </tr>
+        `;
+    });
 }
 
 
@@ -259,8 +196,54 @@ function() {
 }
 );
 
+async function gettotaluser() {
+
+    const reponse = await fetch("/api/accounts/users/profile/",{
+
+        headers:{
+            "Authorization":`Bearer ${token}`
+        }
+
+    })
+    const data = await reponse.json();
+    const totaluser = data.filter(user => user.role === "user").length;
+    document.getElementById("totaluser").textContent = totaluser;
+}
+gettotaluser()
+
+async function gettotalprovider() {
+
+    const reponse = await fetch("/api/accounts/provider/",{
+
+        headers:{
+            "Authorization":`Bearer ${token}`
+        }
+
+    })
+    const data = await reponse.json();
+    document.getElementById("totalprovider").innerText = data.length;
+}
+gettotalprovider()
+
+
+
 
 function logout(){
     localStorage.removeItem("access")
     window.location.href="/accounts/user/login/"
 };
+
+function validatePermission() {
+
+    if (userData.role == "provider" && isProtected) {
+        toastMessage("You don't have permission to access this page!");
+ 
+        setTimeout(() => {
+            localStorage.removeItem("access");
+            window.location.href = "/accounts/user/login/";
+        }, 1000);
+ 
+        return;
+    }
+}
+

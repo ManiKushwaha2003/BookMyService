@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-fi_8c*#zhsj2-f0__1+wzn8au5h-!ks5acm)@uxn1oozi1u*dl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,21 +43,79 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework.authtoken',
+
     'apps.accounts',
     'apps.services',
     'apps.bookings',
     'apps.ratings',
+
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+ 
+
+    'allauth.socialaccount.providers.google',    
 ]
 
+SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+   
+    'allauth.account.middleware.AccountMiddleware',
+
+    'config.middleware.RoleMiddleware',
+
 ]
+
+ACCOUNT_AUTHENTICATION_METHOD = "email" 
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+
+
+GOOGLE_OAUTH_CLIENT_ID = '783527352680-3eqnk4afe3snsu5c49rltvhpvfbq74rl.apps.googleusercontent.com'
+GOOGLE_OAUTH_CLIENT_SECRET = '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'
+GOOGLE_OAUTH_CALLBACK_URL =  "http://localhost:8000/accounts/google/callback"
+
+# django-allauth (social)
+# Authenticate if local account with this email address already exists
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+# Connect local account and social account if local account with that email address already exists
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APPS": [
+            {
+                "client_id": GOOGLE_OAUTH_CLIENT_ID,
+                "secret": GOOGLE_OAUTH_CLIENT_SECRET,
+                "key": "",
+            },
+        ],
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
+
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 ROOT_URLCONF = 'config.urls'
 
@@ -162,4 +220,13 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+}
+REST_AUTH = {
+    "TOKEN_MODEL": None,
+}
+
+
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_HTTPONLY": False,  # Set to True if you want secure, httpOnly cookies instead of raw tokens
 }
