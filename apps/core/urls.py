@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import path
 
 from apps.accounts.views import home, login, register, userdashboard, providerdashboard, createbooking, profile, booking_offers, my_booking, rating, provider_profile, request, provider_offer, provider_work, addservice, userlist
-from apps.accounts.views import userupdate, userview , selectrole , GoogleCallbackRender
+from apps.accounts.views import userupdate, userview , selectrole , GoogleCallbackRender , CustomerDetail
 
 
 
@@ -37,7 +37,9 @@ urlpatterns = [
     path("provider-offer/<int:id>/",provider_offer.as_view(),name="provideroffer"),
     path("provider-work/",provider_work.as_view(),name="providerwork"),
 
-    path("select-role/",selectrole.as_view(),name="selectrole")
+    path("select-role/",selectrole.as_view(),name="selectrole"),
+
+    path("customer-detail/<int:booking_id>/",CustomerDetail.as_view(),name="detail"),
 
 
 ]

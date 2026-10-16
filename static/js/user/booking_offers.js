@@ -56,14 +56,14 @@ async function bookingoffer() {
         
         offer.innerHTML+=`
         <tr>
-        <td>${bookingoffers.id}</td>
-        <td>${bookingoffers.service_name}</td>
-        <td>${bookingoffers.provider_name}</td>
+        <td>#${bookingoffers.booking}</td>
+        <td>#${bookingoffers.service_id} - ${bookingoffers.service_name } </td>
+        <td>${bookingoffers.provider_name }</td>
         <td>${bookingoffers.provider_rating}</td>
         <td>${bookingoffers.price}</td>
-
         <td>${bookingoffers.status}</td>
         <td>${button}</td>
+   
     
         </tr>
         `

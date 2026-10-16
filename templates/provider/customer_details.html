@@ -1,0 +1,184 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Customer Details | BookMyService{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+    {% include "includes/provider_sidebar.html" %}
+
+    <main class="dashboard-main">
+
+        <div class="dashboard-header">
+            <div>
+                <p class="dashboard-label">CUSTOMER INFORMATION</p>
+                <h2>Customer Details</h2>
+                <p class="dashboard-subtitle">
+                    Review customer information before sending an offer.
+                </p>
+            </div>
+        </div>
+
+        <section class="dashboard-card">
+
+            <div class="section-header">
+                <div>
+                    <h4>Customer Information</h4>
+                    <p>Booking and contact details</p>
+                </div>
+            </div>
+
+            <div id="errorMessage" class="alert alert-danger d-none"></div>
+
+            <form>
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Booking ID</label>
+                        <input id="bookingId" class="form-control" readonly>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Customer Name</label>
+                        <input id="clientName" class="form-control" readonly>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Phone Number</label>
+                        <input id="phone" class="form-control" readonly>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Email Address</label>
+                        <input id="email" type="email"
+                               class="form-control" readonly>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Customer Address</label>
+                        <textarea id="address" class="form-control"
+                                  rows="2" readonly></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Service Name</label>
+                        <input id="serviceName" class="form-control" readonly>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Booking Status</label>
+                        <input id="status" class="form-control" readonly>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Description</label>
+                        <textarea id="description" class="form-control"
+                                  rows="3" readonly></textarea>
+                    </div>
+
+                    <div class="col-12">
+                        <button type="button" id="offerButton"
+                                class="btn btn-primary" disabled>
+                            Send Offer
+                        </button>
+
+
+                </div>
+            </form>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="{% static 'js/auth.js' %}"></script>
+<script src="{% static 'js/provider/customer_detail.js' %}"></script>
+
+{% endblock %}
+
+
+
+
+ 
+ 
+ 
+ 
+ {% comment %} {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Provider Requests | BookMyService{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+{% include "includes/provider_sidebar.html" %}
+
+<main class="dashboard-main">
+
+    <div class="dashboard-header">
+
+        <div>
+            <p class="dashboard-label">
+                PROVIDER REQUESTS
+            </p>
+
+            <h2>Customer Detail</h2>
+
+            <p class="dashboard-subtitle">
+                Manage customer bookings and send offers.
+            </p>
+        </div>
+
+    </div>
+
+    <section class="dashboard-card">
+
+        <div class="section-header">
+
+            <div>
+                <h4>Service Requests</h4>
+                <p>Customer booking requests for your services</p>
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="dashboard-table">
+
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Client</th>
+                        <th>Service</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="bookingTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+</div>
+
+<script src="{% static 'js/auth.js' %}"></script>
+
+<script src="{% static 'js/provider/request.js' %}"></script>
+
+{% endblock %}  {% endcomment %}

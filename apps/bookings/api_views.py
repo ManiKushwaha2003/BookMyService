@@ -232,16 +232,13 @@ class BookingProviderPendingView(APIView):
 
 class ProviderWorkAPIView(APIView):
     permission_classes = [IsAuthenticated]
-
     def get(self, request):
         provider = ProviderProfile.objects.get(
             user=request.user
         )
-
         offers = BookingOffer.objects.filter(
             provider=provider,status="COMPLETED"
         )
-
 
         search = request.query_params.get("search","").strip()
         booking_status = request.query_params.get("status","").strip()

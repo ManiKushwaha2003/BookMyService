@@ -9,7 +9,20 @@ class BookingSerializer(serializers.ModelSerializer):
     client_name = serializers.CharField(
         source="client.username",
         read_only=True
-    )    
+    ) 
+    client_email = serializers.EmailField(
+        source="client.email",
+        read_only=True 
+    )
+
+    client_phone = serializers.CharField(
+        source="client.phone",
+        read_only=True
+    )
+    client_address = serializers.CharField(
+        source="client.address",
+        read_only=True
+    )
 
     service_name = serializers.CharField(
         source="service.name",
@@ -34,6 +47,10 @@ class BookingOfferSerializer(serializers.ModelSerializer):
     )
     client_name = serializers.CharField(
         source="booking.client.username",
+        read_only=True
+    )
+    service_id = serializers.IntegerField(
+        source="booking.service.id",
         read_only=True
     )
 

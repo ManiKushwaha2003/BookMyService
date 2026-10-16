@@ -18,7 +18,7 @@ async function getdata() {
         <tr>
         <td>${booking.id}</td>
         <td>${booking.service_name}</td>
-        <td>${booking.provider_name}</td>
+        <td>${booking.provider_name || '------'}</td>
         <td>${booking.status}</td>
         </tr>
 

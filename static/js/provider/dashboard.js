@@ -51,8 +51,15 @@ async function getRequests() {
             <tr>
                 <td>${booking.client_name }</td>
                 <td>${booking.service_name}</td>
-                <td>${booking.description }</td>
+         
                 <td>${booking.status}</td>
+                <td> 
+            <button class="btn btn-info btn-sm"
+                onclick="customerDetail(${booking.id})">
+                Customer Detail
+            </button>
+                </td>
+               
                 <td>
                 <button class="btn btn-primary btn-sm"
                     onclick="booking(${booking.id})">
@@ -62,6 +69,10 @@ async function getRequests() {
             </tr>
         `;
     });
+}
+
+function customerDetail(bookingId) {
+    window.location.href = `/customer-detail/${bookingId}/`;
 }
 function booking(bookingid) {
     window.location.href = `/provider-offer/${bookingid}/`;

@@ -70,3 +70,11 @@ class userview(TemplateView):
 class selectrole(TemplateView):
     template_name = "select_role.html"
 
+class CustomerDetail(TemplateView):
+    template_name = "provider/customer_details.html" 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["booking_id"] = self.kwargs.get("booking_id")
+        return context
+  
