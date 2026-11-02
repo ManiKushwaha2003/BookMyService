@@ -9,18 +9,12 @@ class RoleMiddleware:
         self.jwt_auth = JWTAuthentication()
 
     def __call__(self, request):
-
-        print("============= INSIDE MIDDLEWARE ============")
-        print("PATH:", request.path)
-
         # Select Role page
         if request.path == "/select-role/":
-            print("SELECT ROLE PAGE - BYPASS")
             return self.get_response(request)
 
         # Select Role API
         if request.path == "/api/accounts/select-role/":
-            print("SELECT ROLE API - BYPASS")
             return self.get_response(request)
 
         # Google authentication
@@ -29,7 +23,6 @@ class RoleMiddleware:
             or
             request.path.startswith("/api/v1/auth/google/")
         ):
-            print("GOOGLE AUTH - BYPASS")
             return self.get_response(request)
 
         # API request
@@ -38,20 +31,11 @@ class RoleMiddleware:
             try:
 
                 result = self.jwt_auth.authenticate(request)
-
-                print("result :", result)
-
                 if result:
 
                     user, token = result
 
-                    print("JWT USER ID:", user.id)
-                    print("JWT USER ROLE:", user.role)
-
                     if not user.role:
-
-                        print("ROLE NOT SET")
-
                         return JsonResponse({
                             "error": "ROLE_NOT_SET"
                         }, status=403)

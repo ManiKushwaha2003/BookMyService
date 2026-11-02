@@ -63,6 +63,354 @@
 
     </nav>
 
+<style>
+#chatbotButton {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 1050;
+    width: 62px;
+    height: 62px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+    transition: 0.25s;
+}
+
+#chatbotButton:hover {
+    transform: translateY(-4px);
+}
+
+#chatbotButton i {
+    display: block;
+    font-size: 23px;
+}
+
+#chatbotModal {
+    z-index: 1060;
+}
+
+#chatbotModal .modal-dialog {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    top: auto;
+    margin: 0;
+    width: 380px;
+    max-width: calc(100% - 30px);
+    height: min(600px, calc(100vh - 40px));
+    transform: translateY(20px) !important;
+    transition: transform 0.25s ease;
+}
+
+#chatbotModal.show .modal-dialog {
+    transform: translateY(0) !important;
+}
+
+#chatbotModal .modal-content {
+    height: 100%;
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.18);
+    background: #f8fafc;
+}
+
+#chatbotModal .modal-header {
+    padding: 18px;
+    border: none;
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+}
+
+.chatbot-avatar {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 22px;
+}
+
+.chatbot-status {
+    font-size: 12px;
+    color: #dbeafe;
+}
+
+#chatbotModal .modal-body {
+    flex: 1;
+    min-height: 0;
+    padding: 18px;
+    overflow-y: auto;
+    background: #f8fafc;
+}
+
+.chatbot-message {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.chatbot-message.user {
+    justify-content: flex-end;
+}
+
+.chatbot-bubble {
+    max-width: 85%;
+    padding: 11px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.chatbot-message.bot .chatbot-bubble {
+    background: white;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    border-top-left-radius: 4px;
+}
+
+.chatbot-message.user .chatbot-bubble {
+    background: #2563eb;
+    color: white;
+    border-top-right-radius: 4px;
+}
+
+#chatbotModal .modal-footer {
+    padding: 14px;
+    border-top: 1px solid #e2e8f0;
+    background: white;
+}
+
+#chatbotForm {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+#chatbotInput {
+    min-width: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 25px;
+    padding: 12px 16px;
+    font-size: 14px;
+    box-shadow: none;
+}
+
+#chatbotInput:focus {
+    border-color: #2563eb;
+}
+
+#chatbotForm button {
+    flex-shrink: 0;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background: #2563eb;
+}
+
+#chatbotForm button:disabled {
+    opacity: 0.5;
+}
+
+#chatbotTyping {
+    display: none;
+    color: #64748b;
+    font-size: 12px;
+    padding: 0 0 10px;
+}
+
+@media (max-width: 480px) {
+    #chatbotModal .modal-dialog {
+        right: 8px;
+        bottom: 8px;
+        width: calc(100% - 16px);
+        max-width: none;
+        height: calc(100dvh - 16px);
+    }
+
+    #chatbotButton {
+        right: 16px;
+        bottom: 16px;
+    }
+}
+</style>
+
+<button type="button"
+        id="chatbotButton"
+        data-bs-toggle="modal"
+        data-bs-target="#chatbotModal"
+        aria-label="Open BookMyService AI Assistant">
+    <i class="bi bi-robot"></i>
+    AI
+</button>
+
+<div class="modal fade" id="chatbotModal" tabindex="-1"
+     aria-labelledby="chatbotModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="chatbot-avatar">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title mb-1" id="chatbotModalLabel">
+                            BookMyService AI
+                        </h5>
+                        <div class="chatbot-status">
+                            <i class="bi bi-circle-fill"
+                               style="font-size: 8px;"></i>
+                            Your service assistant
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button"
+                        class="btn-close btn-close-white ms-auto"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" id="chatbotMessages">
+                <div class="chatbot-message bot">
+                    {% comment %} <div class="chatbot-bubble"> {% endcomment %}
+                        {% comment %} Hello! 👋 Welcome to BookMyService.
+
+                        I can help you with our services, bookings and offers. How can I help you today? {% endcomment %}
+                    {% comment %} </div> {% endcomment %}
+                </div>
+            </div>
+
+            <div id="chatbotTyping" class="px-3">
+                Assistant is typing...
+            </div>
+
+            <div class="modal-footer">
+                <form id="chatbotForm">
+                    <input type="text"
+                           id="chatbotInput"
+                           class="form-control"
+                           placeholder="Ask me anything..."
+                           autocomplete="off"
+                           required>
+
+                    <button type="submit" id="chatbotSend"
+                            class="btn btn-primary"
+                            aria-label="Send message">
+                        <i class="bi bi-send-fill"></i>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+let chatbotSocket = null;
+let chatbotManuallyClosed = false;
+
+const chatbotModal = document.getElementById("chatbotModal");
+const chatbotMessages = document.getElementById("chatbotMessages");
+const chatbotInput = document.getElementById("chatbotInput");
+const chatbotSend = document.getElementById("chatbotSend");
+const chatbotTyping = document.getElementById("chatbotTyping");
+
+function addChatbotMessage(message, sender) {
+    const row = document.createElement("div");
+    row.className = "chatbot-message " + sender;
+
+    const bubble = document.createElement("div");
+    bubble.className = "chatbot-bubble";
+    bubble.textContent = message;
+
+    row.appendChild(bubble);
+    chatbotMessages.appendChild(row);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+function connectChatbot() {
+    if (chatbotSocket &&
+        (chatbotSocket.readyState === WebSocket.OPEN ||
+         chatbotSocket.readyState === WebSocket.CONNECTING)) {
+        return;
+    }
+
+    chatbotSocket = new WebSocket(
+        (location.protocol === "https:" ? "wss://" : "ws://") +
+        location.host + "/ws/chat/"
+    );
+
+    chatbotSocket.onopen = function() {
+        chatbotSend.disabled = false;
+    };
+
+    chatbotSocket.onmessage = function(event) {
+        chatbotTyping.style.display = "none";
+        addChatbotMessage(event.data, "bot");
+        chatbotSend.disabled = false;
+        chatbotInput.focus();
+    };
+
+    chatbotSocket.onclose = function() {
+        chatbotSend.disabled = true;
+        chatbotTyping.style.display = "none";
+    };
+
+    chatbotSocket.onerror = function() {
+        chatbotTyping.style.display = "none";
+        chatbotSend.disabled = false;
+    };
+}
+
+chatbotModal.addEventListener("shown.bs.modal", function() {
+    chatbotManuallyClosed = false;
+    connectChatbot();
+    chatbotInput.focus();
+});
+
+chatbotModal.addEventListener("hidden.bs.modal", function() {
+    chatbotManuallyClosed = true;
+});
+
+document.getElementById("chatbotForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const question = chatbotInput.value.trim();
+
+    if (!question) return;
+
+    if (!chatbotSocket || chatbotSocket.readyState !== WebSocket.OPEN) {
+        addChatbotMessage(
+            "Connection is not ready. Please try sending your message again.",
+            "bot"
+        );
+        connectChatbot();
+        return;
+    }
+
+    addChatbotMessage(question, "user");
+    chatbotInput.value = "";
+    chatbotTyping.style.display = "block";
+    chatbotSend.disabled = true;
+
+    chatbotSocket.send(question);
+});
+</script>
+
+
+
     <!-- PAGE CONTENT -->
 
     {% block content %} {% endblock %}

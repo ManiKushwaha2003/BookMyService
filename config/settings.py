@@ -35,6 +35,9 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
+    "channels",
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,6 +52,7 @@ INSTALLED_APPS = [
     'apps.services',
     'apps.bookings',
     'apps.ratings',
+    'apps.chat',
 
     'django.contrib.sites',
 
@@ -89,8 +93,7 @@ GOOGLE_OAUTH_CLIENT_ID = os.getenv("GOOGLE_OAUTH_CLIENT_ID")
 GOOGLE_OAUTH_CLIENT_SECRET = os.getenv("GOOGLE_OAUTH_CLIENT_SECRET")
 GOOGLE_OAUTH_CALLBACK_URL =  os.getenv("GOOGLE_OAUTH_CALLBACK_URL")
 
-# django-allauth (social)
-# Authenticate if local account with this email address already exists
+
 SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 # Connect local account and social account if local account with that email address already exists
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
@@ -134,7 +137,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+# WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
 
 
 # Database

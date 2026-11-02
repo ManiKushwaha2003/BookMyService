@@ -19,7 +19,13 @@ class login(TemplateView):
         return context    
 
 class register(TemplateView):
-    template_name = "register.html"    
+    template_name = "register.html"  
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["google_client_id"] = settings.GOOGLE_OAUTH_CLIENT_ID
+        context["google_redirect_uri"] = settings.GOOGLE_OAUTH_CALLBACK_URL
+        return context      
 
 class userdashboard(TemplateView):
     template_name = "user/dashboard.html"

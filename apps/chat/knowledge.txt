@@ -1,0 +1,885 @@
+PROJECT NAME: BookMyService
+
+1. PROJECT INTRODUCTION
+
+BookMyService is an online service booking platform developed using Django.
+It connects customers with service providers who offer everyday services.
+
+Customers can create service bookings, receive offers from
+providers, compare prices and ratings, and select a suitable provider.
+
+Service providers can view relevant booking requests, submit offers, manage
+accepted bookings, update work status, and maintain their profiles.
+
+The platform uses authentication, role-based access, a database, Django
+APIs, and frontend templates to manage its operations.
+
+The BookMyService Assistant is an AI chatbot that explains platform
+features and guides customers and providers through their workflows.
+
+
+2. USER ROLES
+
+BookMyService supports three application roles:
+
+CUSTOMER:
+- Register and log in.
+- View available services.
+- Create service bookings.
+- View personal bookings.
+- Check booking progress.
+- View offers received for a booking.
+- Compare provider prices and ratings.
+- Accept a suitable offer.
+- View provider details.
+- Rate a provider after service completion.
+- Manage profile information.
+
+SERVICE PROVIDER:
+- Register and log in as a provider.
+- Create and update a provider profile.
+- Add a description of services offered.
+- Select the services they provide.
+- View relevant customer booking requests.
+- Review customer requirements.
+- View customer contact details when authorized.
+- Submit an offer with a proposed price and message.
+- View offers and assigned bookings.
+- Manage accepted bookings.
+- Update service progress.
+- Mark work as completed according to platform rules.
+- View ratings and average rating.
+
+ADMIN:
+- Manage users.
+- View, edit, and delete users where permitted.
+- Manage available services.
+- Add new services.
+- View and filter service records.
+- Manage administrative profile information.
+
+Administrative permissions depend on the configured Django views,
+API permissions, and application rules.
+
+
+3. REGISTRATION AND LOGIN
+
+Customers and providers must create an account before accessing
+protected features.
+
+Registration workflow:
+1. Open the registration page.
+2. Enter the required account information.
+3. Select the appropriate role if role selection is available.
+4. Submit the registration form.
+5. Log in using the registered account.
+6. Access the appropriate dashboard.
+
+Login workflow:
+1. Open the login page.
+2. Enter the required credentials.
+3. Submit the login form.
+4. The application authenticates the account.
+5. The user is redirected to the appropriate dashboard.
+
+Google authentication:
+1. Select Google login if it is enabled.
+2. Complete Google authentication.
+3. The application identifies or creates the account.
+4. If the account has no role, the user may be redirected to role selection.
+5. After selecting a role, the application redirects the user according
+   to the configured role-based routing rules.
+
+Customers and administrators generally use the user dashboard.
+Service providers use the provider dashboard.
+
+Users must never be allowed to access another account's private data
+without appropriate authorization.
+
+
+4. AVAILABLE SERVICES
+
+BookMyService may provide services such as:
+
+
+The actual available services are determined by the services configured
+in the application's database.
+
+How to check available services:
+1. Log in if authentication is required.
+2. Open the service selection or booking page.
+3. Review the services displayed by the application.
+4. Select the service that matches the requirement.
+5. Enter the necessary booking details.
+
+The existence of a service in the database does not necessarily mean
+that a provider is currently available for it.
+
+To check provider availability, the application must retrieve current
+provider or booking information through an appropriate backend API.
+
+The chatbot must not invent services or claim that a provider is
+available without verified data.
+
+
+5. HOW TO CREATE A BOOKING
+
+A customer can create a service booking through the booking interface.
+
+Booking workflow:
+1. Register or log in to BookMyService.
+2. Open the Create Booking page.
+3. Select the required service.
+4. Describe the problem or work that needs to be completed.
+5. Provide any other required booking details.
+6. Submit the booking form.
+7. The backend validates the submitted information.
+8. The backend creates the booking if validation succeeds.
+9. The customer can view the booking in their booking list.
+10. Relevant providers can review the request and submit offers.
+
+Example:
+
+Relevant providers may then review the request and send their offers.
+
+The chatbot can explain these steps. It cannot create the booking merely
+by describing the process. Actual creation requires an authorized booking
+API or an implemented booking tool.
+
+
+6. HOW TO VIEW MY BOOKINGS
+
+Customers can view bookings associated with their authenticated account.
+
+Typical workflow:
+1. Log in as a customer.
+2. Open My Bookings.
+3. Review the list of personal bookings.
+4. Check the service, booking details, assigned provider, and status
+   when those fields are available.
+5. Open a particular booking to view additional information.
+
+A booking list may include pending, accepted, in-progress, rejected,
+or completed records, depending on the application's implementation.
+
+To retrieve the actual booking list, the chatbot must call the relevant
+authenticated Django API.
+
+The chatbot must not assume that a booking exists just because the
+customer describes it in a message.
+
+
+7. HOW TO CHECK BOOKING STATUS
+
+BookMyService uses booking statuses such as:
+
+PENDING:
+The booking is awaiting further action. Depending on the workflow,
+providers may still need to submit offers.
+
+ACCEPTED:
+A provider's offer has been accepted and the provider is assigned
+to the booking.
+
+IN PROGRESS:
+The service provider has started the work.
+
+COMPLETED:
+The service work has been marked as completed.
+
+REJECTED:
+The booking has been rejected, or a related offer has been rejected.
+Booking rejection and offer rejection are separate operations and
+must be interpreted according to the relevant record.
+
+How to check booking status:
+1. Log in to the customer account.
+2. Open My Bookings.
+3. Locate the relevant booking.
+4. Read its current status.
+5. Open the booking details if more information is needed.
+
+The chatbot can explain what each status means.
+
+To answer a question such as "What is the status of my booking?",
+the chatbot must:
+1. Identify the authenticated customer.
+2. Retrieve the customer's bookings from the Django API.
+3. Identify the requested booking using its booking ID or other
+   unambiguous details.
+4. Read the current status from the API response.
+5. Explain the result to the customer.
+
+If multiple bookings match, ask the customer which booking they mean.
+
+
+
+ChromaDB contains documentation, not automatically updated booking
+records. Live status checks require database-backed API integration.
+
+
+8. HOW TO CHECK PENDING BOOKINGS
+
+Customers:
+1. Open My Bookings.
+2. Review bookings whose current status is Pending.
+3. Open a booking to inspect its details.
+4. Check whether offers have been received.
+
+Providers:
+1. Log in to the provider account.
+2. Open the provider booking requests page.
+3. Review relevant requests for services the provider offers.
+4. Open a request to inspect its details.
+5. Submit an offer if the provider wants to accept the work.
+
+A pending booking does not guarantee that a provider has submitted an offer.
+
+The chatbot must retrieve current records through the appropriate API
+before reporting how many pending bookings exist.
+
+
+9. HOW PROVIDERS VIEW AVAILABLE BOOKING REQUESTS
+
+Providers can view customer requests relevant to the services they offer.
+
+Typical workflow:
+1. Log in as a service provider.
+2. Open the provider dashboard.
+3. Navigate to booking requests or pending bookings.
+4. Review the service and customer requirements.
+5. Check the available booking details.
+6. Submit an offer if interested.
+
+The displayed requests depend on the application's filtering rules,
+provider service selections, booking statuses, and permissions.
+
+The chatbot must not assume that every provider can access every booking.
+
+A live request list must be retrieved from the backend API.
+
+The chatbot should distinguish between:
+- A customer booking awaiting offers.
+- A booking assigned to a provider.
+- A booking whose offer has already been accepted.
+- A completed or rejected booking.
+
+
+10. HOW TO SEND A PROVIDER OFFER
+
+A service provider can submit an offer for a relevant booking.
+
+Typical workflow:
+1. Log in as a service provider.
+2. Open the relevant booking request.
+3. Review the customer's requirements.
+4. Enter the proposed service price.
+5. Enter an optional message if supported.
+6. Submit the offer.
+7. The backend validates and stores the offer.
+8. The customer can view the offer if the operation succeeds.
+
+Example:
+A provider reviews the request and proposes a price of 800.
+The provider submits the offer with a message describing the work.
+
+The example price is illustrative and is not an actual platform quotation.
+
+The chatbot must not claim that an offer was submitted unless the backend
+confirms successful creation.
+
+The chatbot must not invent actual provider prices.
+
+
+11. HOW TO CHECK OFFERS RECEIVED
+
+Customers can review offers submitted for their bookings.
+
+Typical workflow:
+1. Log in to the customer account.
+2. Open My Bookings or the booking offers page.
+3. Select the relevant booking.
+4. View the offers associated with that booking.
+5. Compare the proposed prices and provider information.
+6. Review provider profiles and ratings when available.
+7. Select a suitable offer.
+
+The number of offers depends on the actual booking and provider activity.
+
+To answer "Have I received any offers?", the chatbot must retrieve the
+relevant booking and its associated offers from the backend.
+
+If no offers are returned, the chatbot should explain that no offers
+were found for the selected booking at the time of the API check.
+
+The chatbot must not fabricate offers, prices, messages, or provider names.
+
+
+12. HOW TO COMPARE PROVIDER OFFERS
+
+Customers may compare offers using:
+- Proposed price.
+- Provider profile.
+- Provider description.
+- Provider rating.
+- Service requirements.
+- Offer message.
+- Other information actually provided by the application.
+
+Recommended workflow:
+1. Open the selected booking.
+2. View the offers received.
+3. Compare the proposed prices.
+4. Review provider profiles and ratings.
+5. Consider whether each offer meets the requirements.
+6. Choose the offer that best fits the customer's needs.
+
+The lowest price is not necessarily the best option.
+
+The chatbot can explain comparison criteria, but actual comparisons
+require real offer data from the backend.
+
+Never generate fake provider ratings or prices.
+
+
+13. HOW TO ACCEPT AN OFFER
+
+Customers can accept a suitable provider offer.
+
+Typical workflow:
+1. Log in as the customer who owns the booking.
+2. Open the relevant booking.
+3. View the available offers.
+4. Select the preferred offer.
+5. Confirm acceptance if the application requests confirmation.
+6. The backend validates the operation.
+7. If acceptance succeeds, the selected provider is assigned to
+   the booking and its status is updated according to the workflow.
+8. Other offers may be rejected automatically if this behavior is
+   implemented by the application.
+
+Only an authorized customer should be able to accept an offer
+for their own booking.
+
+The chatbot must use the appropriate authenticated API to accept
+an offer. It must never claim acceptance succeeded without confirmation.
+
+If the offer is no longer available or the operation fails, explain
+the error returned by the application.
+
+
+14. HOW TO CHECK AN OFFER'S STATUS
+
+Offers have their own statuses, which must be distinguished from
+the status of the associated booking.
+
+An offer may have statuses such as:
+- Pending
+- Accepted
+- Rejected
+- Completed
+
+To check an offer:
+1. Open the relevant booking.
+2. Open its offers section.
+3. Identify the required offer.
+4. Read the offer's current status.
+5. Interpret that status separately from the booking status.
+
+For example, an offer can be Accepted while the associated booking
+is still at an earlier stage of service execution.
+
+The exact status transitions depend on the implemented business rules.
+
+Live offer-status checks require backend integration.
+
+
+15. HOW TO REJECT AN OFFER
+
+Offer rejection and booking rejection are different operations.
+
+If offer rejection is supported:
+1. Open the relevant booking.
+2. Locate the offer.
+3. Select the rejection action if available.
+4. Confirm the action if requested.
+5. Verify that the backend updated the offer status.
+
+Rejecting an offer must not automatically be described as rejecting
+the entire booking unless the backend explicitly implements that behavior.
+
+The chatbot must verify the relevant record and API response.
+
+
+16. HOW PROVIDERS MANAGE ACCEPTED BOOKINGS
+
+After a customer accepts a provider's offer, the selected provider
+is assigned to the booking according to the platform workflow.
+
+The provider can:
+1. Log in to the provider account.
+2. Open accepted or assigned bookings.
+3. Review the booking requirements.
+4. Contact the customer through authorized platform functionality
+   if available.
+5. Begin the service.
+6. Update the work status when the applicable action is available.
+7. Mark the work completed when appropriate.
+
+Only the assigned provider or another authorized user should be allowed
+to perform provider-specific actions.
+
+The chatbot cannot determine which bookings are currently assigned
+to a provider without retrieving live booking records.
+
+
+17. HOW TO UPDATE BOOKING STATUS
+
+Providers may be able to update the status of assigned bookings.
+
+A typical service workflow is:
+Pending -> Accepted -> In Progress -> Completed
+
+This sequence describes a general workflow, not a guarantee that
+every transition is allowed in every situation.
+
+To update a booking:
+1. Log in as the assigned provider.
+2. Open the relevant booking.
+3. Select the permitted status-update action.
+4. Submit the update.
+5. Confirm the operation succeeded.
+6. Check the updated booking status.
+
+Rejected bookings and offers follow their own rules.
+
+The backend must validate which transitions are permitted.
+The chatbot must not bypass those validations or claim an update
+succeeded without an API confirmation.
+
+
+18. HOW TO MARK A BOOKING COMPLETED
+
+A provider may mark a booking as completed after finishing the service,
+if the platform allows that action.
+
+Typical workflow:
+1. Open the assigned booking.
+2. Confirm that the service has been performed.
+3. Select the completion action.
+4. Submit the status update.
+5. Verify the backend response.
+6. The customer can then review the completed booking.
+
+Customers may be permitted to rate providers after completion,
+according to the platform's rules.
+
+The chatbot must not mark a booking completed unless an authorized
+completion API or tool exists and the operation succeeds.
+
+
+19. HOW TO RATE A SERVICE PROVIDER
+
+Customers can rate providers after a completed service, subject to
+the platform's validation rules.
+
+Typical workflow:
+1. Log in as the customer.
+2. Open the completed booking.
+3. Select the rating option if available.
+4. Submit the rating and any supported feedback.
+5. The backend validates and saves the rating.
+
+The application may restrict ratings to eligible completed bookings
+and may prevent duplicate ratings.
+
+The chatbot must not claim that a rating has been saved unless the
+backend confirms success.
+
+It must not invent a customer's submitted rating.
+
+
+20. HOW TO CHECK PROVIDER RATINGS
+
+Customers may use provider ratings when comparing offers.
+
+To view a provider's rating:
+1. Open the provider profile or offer details.
+2. Review the rating information displayed.
+3. Compare it with other available provider information.
+
+The provider's average rating is calculated from the ratings stored
+by the application, if this functionality is implemented.
+
+A live rating query must retrieve current rating data from the backend.
+
+If a provider has no ratings, the chatbot must not invent an average.
+
+The chatbot should clearly distinguish between a verified average
+rating and an unavailable rating.
+
+
+21. HOW TO BECOME A SERVICE PROVIDER
+
+A user who wants to provide services can register or select the provider
+role through the supported account workflow.
+
+Typical workflow:
+1. Register or log in.
+2. Select the Service Provider role if role selection is available.
+3. Complete the provider profile.
+4. Add a description.
+5. Select the services offered.
+6. Save the profile.
+7. Open the provider dashboard.
+8. Review relevant booking requests.
+
+The provider must select the services they actually offer.
+
+The availability of requests depends on the services configured
+in the profile and the application's matching rules.
+
+The chatbot should not claim a profile was created or updated without
+confirmation from the backend.
+
+
+22. HOW TO UPDATE A PROVIDER PROFILE
+
+Providers may be able to update their profile information.
+
+Typical workflow:
+1. Log in as a provider.
+2. Open the profile page.
+3. Review existing information.
+4. Update supported fields.
+5. Select the services offered if that feature is available.
+6. Submit the changes.
+7. Verify that the backend saved the updated information.
+
+Only authorized users should be able to edit their own profile,
+unless administrative permissions permit otherwise.
+
+The chatbot must not claim a profile update succeeded without confirmation.
+
+
+23. HOW TO CHECK CUSTOMER DETAILS
+
+Providers may need booking-related customer details to understand
+the service request.
+
+Typical workflow:
+1. Log in as the assigned or otherwise authorized provider.
+2. Open the relevant booking.
+3. View the customer details made available by the application.
+4. Use contact information only for the legitimate booking purpose.
+
+Access to customer phone numbers, addresses, and other personal
+information must be protected by authentication and authorization.
+
+The chatbot must never disclose another customer's private information
+without appropriate permission.
+
+Live customer details must come from an authorized backend API,
+not from the knowledge base.
+
+
+24. HOW TO CHECK MY PROFILE
+
+Users can open their profile page to view information associated
+with their account.
+
+Depending on the role, the profile may include:
+- Username.
+- Email address.
+- Phone number.
+- Address.
+- Provider description.
+- Selected services.
+- Other supported profile fields.
+
+The exact fields depend on the application's implementation.
+
+A user should only access or update information they are authorized
+to view or modify.
+
+The chatbot must not expose passwords, authentication tokens,
+or private account data.
+
+
+25. ADMIN DASHBOARD
+
+Administrators may have access to management functionality.
+
+Depending on configured permissions, an administrator may:
+- View user records.
+- Add or edit user information.
+- Delete user records.
+- Add services.
+- View available services.
+- Search or filter service records.
+- View or update administrative profile information.
+
+Administrative actions must be protected by server-side permissions.
+
+The chatbot must not assume that a user is an administrator merely
+because they request an administrative operation.
+
+It must not execute administrative actions unless a properly authorized
+backend API or tool is available.
+
+
+26. BOOKING SEARCH AND FILTERING
+
+The application may support searching or filtering booking records
+using parameters such as status or search terms.
+
+Examples of questions:
+- Show my pending bookings.
+- Find my completed bookings.
+- Show bookings associated with a particular provider.
+- Find a booking by its identifier.
+
+The actual search fields and supported filters depend on the API.
+
+The chatbot should:
+1. Identify the requested filter.
+2. Check the authenticated user's permissions.
+3. Call the relevant API with supported parameters.
+4. Present the returned records.
+5. Ask a clarifying question if the search is ambiguous.
+
+The chatbot must not invent search results or imply that all bookings
+are visible to every user.
+
+
+27. AVAILABLE BOOKINGS VERSUS AVAILABLE SERVICES
+
+Available services are service categories configured in the application.
+
+Available bookings are actual booking records that may be awaiting
+provider offers or other action.
+
+Provider availability refers to whether a suitable provider can take
+a particular request.
+
+These are three different concepts.
+
+To answer "Which services are available?", retrieve the configured
+service list when live data is required.
+
+To answer "Which bookings are available?", query the booking API
+using the authenticated user's role and permitted filters.
+
+To answer "Is a provider available?", query an appropriate provider
+availability source if the application implements one.
+
+Never treat the knowledge base as a live availability database.
+
+
+28. COMMON CUSTOMER QUESTIONS
+
+Q: How can I book a service?
+A: Log in, open the booking page, select serviec, describe the work,
+and submit the booking. Review provider offers when they arrive.
+
+Q: How can I see my bookings?
+A: Open My Bookings after logging in.
+
+Q: How can I check my booking status?
+A: Open My Bookings and inspect the relevant booking's status.
+
+Q: How can I check received offers?
+A: Open the relevant booking and view its offers.
+
+Q: How can I compare provider offers?
+A: Compare proposed prices, provider profiles, ratings, and offer messages.
+
+Q: How do I accept an offer?
+A: Open the booking, select the preferred offer, and use the acceptance
+action provided by the application.
+
+Q: Can I see the provider's rating?
+A: Review the provider profile or offer details if rating information
+is available.
+
+Q: When can I rate a provider?
+A: After the service is completed, subject to the application's rules.
+
+Q: How can I become a provider?
+A: Register or log in, select the provider role when supported,
+complete your profile, and select your services.
+
+Q: Why have I not received any offers?
+A: Check the booking details and its current offers. Actual offer
+availability must be verified using the backend.
+
+Q: Can the chatbot book a service for me?
+A: The chatbot can explain the booking process. It can create a booking
+only if an authorized booking API or tool is implemented and successfully
+executes the request.
+
+Q: Can the chatbot check live booking status?
+A: Yes, if it is connected to the authenticated Django API that returns
+the current booking status.
+
+Q: Can the chatbot show my actual provider offers?
+A: Yes, if it is connected to the authorized API that retrieves offers
+for the selected booking.
+
+
+29. COMMON PROVIDER QUESTIONS
+
+Q: How can I see customer booking requests?
+A: Log in as a provider and open the booking requests page.
+
+Q: How can I send an offer?
+A: Open a relevant booking, enter your proposed price and optional
+message, and submit the offer.
+
+Q: How can I check accepted bookings?
+A: Open the assigned or accepted bookings section if available.
+
+Q: How can I update work status?
+A: Open the assigned booking and select an allowed status update.
+
+Q: How can I mark a service completed?
+A: Use the completion action for an eligible booking if permitted.
+
+Q: How can I check my rating?
+A: Open the provider dashboard or profile if rating information
+is displayed there.
+
+Q: How can I change my services?
+A: Open your provider profile and update the selected services
+if editing is supported.
+
+Q: Can I view every customer's information?
+A: No. Customer information must only be accessed when authorized
+and necessary for the relevant booking.
+
+
+30. SECURITY AND AUTHORIZATION
+
+The chatbot must follow these rules:
+
+- Never reveal passwords, access tokens, or refresh tokens.
+- Never bypass authentication.
+- Never bypass Django permission checks.
+- Never expose another customer's private booking information.
+- Never expose provider or customer personal information without
+  appropriate authorization.
+- Never assume that a user is authorized based only on their message.
+- Never allow a customer to perform provider-only actions.
+- Never allow an ordinary user to perform administrator-only actions.
+- Never claim that a database operation succeeded without confirmation.
+- Never invent booking IDs, prices, offers, ratings, or user records.
+
+All sensitive operations must be validated by the backend.
+Frontend checks and chatbot instructions alone are not sufficient
+to secure an API.
+
+
+31. RAG AND CHROMADB
+
+The BookMyService Assistant uses Retrieval-Augmented Generation (RAG).
+
+The knowledge base contains documentation about the project, roles,
+services, booking workflows, offers, ratings, and security rules.
+
+The RAG workflow is:
+1. Load the knowledge base.
+2. Split the text into smaller chunks.
+3. Convert the chunks into embeddings.
+4. Store the chunks and embeddings in ChromaDB.
+5. Convert the user's question into an embedding.
+6. Retrieve the most relevant chunks.
+7. Send the question and retrieved context to the LLM.
+8. Generate an answer grounded in the retrieved context.
+
+The embedding model used by the application is
+sentence-transformers/all-MiniLM-L6-v2.
+
+ChromaDB stores and retrieves documentation-based knowledge.
+
+It does not automatically know the current state of Django database
+records unless the application explicitly indexes and updates those
+records. For live booking information, authenticated Django APIs
+are the preferred source of truth.
+
+
+32. CHATBOT RESPONSE RULES
+
+The assistant should:
+- Answer clearly and simply.
+- Understand variations of the same question.
+- Explain platform workflows step by step.
+- Use retrieved knowledge for general project questions.
+- Ask for a booking ID or clarification when necessary.
+- Distinguish general guidance from verified live information.
+- Explain when information is unavailable.
+- Avoid inventing data.
+- Protect personal information.
+- Report API failures honestly.
+- Never claim to have performed an action that was not completed.
+
+If the retrieved knowledge does not contain the answer, the assistant
+should say that the information is unavailable in the knowledge base
+rather than making up an answer.
+
+For live data requests, the assistant should use the appropriate
+authenticated backend API if an authorized integration exists.
+
+If no such integration exists, explain that live information cannot
+currently be retrieved by the chatbot.
+
+
+33. EXAMPLES OF LIVE DATA QUESTIONS
+
+The chatbot may receive questions such as:
+- What is the status of my booking?
+- Show my pending bookings.
+- How many bookings do I have?
+- Have I received any offers?
+- Show the offers for booking 15.
+- What is the price offered by each provider?
+- Which provider's offer did I accept?
+- Show my accepted bookings.
+- Which bookings are in progress?
+- Is my service completed?
+- What is my current provider rating?
+- Show my completed bookings.
+- Are there any pending requests for my services?
+
+These questions require real database data when they refer to
+the current state of the application.
+
+The chatbot must call the relevant authorized API, interpret the
+actual response, and answer using verified information.
+
+If the API integration has not been implemented, the chatbot must
+explain this limitation rather than fabricate a result.
+
+
+34. FINAL PROJECT SUMMARY
+
+BookMyService connects customers and service providers through
+a service booking workflow.
+
+Customers create bookings, receive provider offers, compare prices
+and ratings, accept offers, monitor progress, and rate completed work.
+
+Providers manage their profiles, review relevant requests, submit offers,
+manage assigned work, update statuses, and view ratings.
+
+Administrators manage users and services according to their permissions.
+
+The BookMyService Assistant combines an LLM, embeddings, ChromaDB,
+and RAG to explain the application and answer project-related questions.
+
+Integration with authenticated Django APIs allows the chatbot to retrieve
+live booking information and perform supported actions when implemented.
+
+The knowledge base explains how the platform works, while the Django
+backend remains the source of truth for live data, permissions, and
+successful booking operations.
+

@@ -54,6 +54,17 @@ BookMyService - Login
                             class="btn btn-primary w-100">
                             Login
                         </button>
+                    <div class="mt-4">
+
+                        <a href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={{ google_redirect_uri }}&prompt=consent&response_type=code&client_id={{ google_client_id }}&scope=openid%20email%20profile&access_type=offline"
+                        class="btn btn-outline-secondary w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+
+                            <i class="bi bi-google"></i>
+                            Continue with Google
+
+                        </a>
+
+                    </div>                        
 
                     </form>
 
@@ -62,12 +73,6 @@ BookMyService - Login
                             Don't have an account?
                             <a href="/accounts/user/register/">Create Account</a>
                         </p>
-                    </div>
-                    <div class="container">
-                        <h1 class="title">Sign in</h1>
-                        <a href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri={{ google_redirect_uri }}&prompt=consent&response_type=code&client_id={{ google_client_id }}&scope=openid%20email%20profile&access_type=offline">
-                            Sign in with Google
-                        </a>
                     </div>
 
                 </div>
